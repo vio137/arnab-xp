@@ -740,7 +740,7 @@ function botReply(q){
 const CMD_HELP='Available commands:\n  help        this list\n  whoami      current user\n  about       about Arnab\n  projects    project list\n  skills      skills summary\n  contact     contact info\n  github      GitHub profile\n  music       now playing on the media player\n  open <app>  open a program (about, projects, resume, contact, notepad, mines, paint, cmd, wmp, ipod, messenger, imgview, scamlab, pinball, gameboy, realm, display, bin)\n  date        current date and time\n  cls         clear screen\n  exit        close this window';
 /* ---------------- PROGRAMS ---------------- */
 const PROGRAMS={
-  about:{t:'About Me',ic:'i-pc',w:760,h:520,body:()=>aboutBody(),menu:'explore',status:'Ready'},
+  about:{t:'About Me',ic:'i-pc',w:760,h:520,body:()=>aboutBody(),menu:'explore',status:'Ready',nav:'about'},
   projects:{t:'My Projects',ic:'i-ie',w:760,h:520,body:()=>projectsListBody(),menu:'explore',status:'Ready',nav:true},
   resume:{t:'My Resume',ic:'i-pdf',w:760,h:520,body:()=>resumeBody(),menu:'explore',status:'Ready'},
   contact:{t:'Contact Me',ic:'i-mail',w:720,h:500,body:()=>contactBody(),menu:'explore',status:'Ready'},
@@ -814,20 +814,27 @@ function menuBar(pr,id){
     <span class="mi" data-m="view">View<div class="mdd"><div class="di on" data-act="status">Status Bar</div></div></span>
     <span class="mi" data-m="help">Help<div class="mdd"><div class="di" data-act="aboutxp">About Arnab XP</div></div></span>
     <span class="sp"></span><svg class="flag-s" viewBox="0 0 120 96"><use href="#i-flag"/></svg></div>
-    ${pr.nav?`<div class="toolbar">
+    ${pr.nav===true?`<div class="toolbar">
     <span class="tlbtn" data-nav="back"><svg viewBox="0 0 18 18"><use href="#i-back"/></svg>Back</span>
     <span class="tlbtn dis" data-nav="fwd"><svg viewBox="0 0 18 18"><use href="#i-fwd"/></svg>Forward</span>
     <span class="tlsep"></span>
     <span class="tlbtn" data-nav="home"><svg viewBox="0 0 48 48" style="width:16px;height:16px"><use href="#i-ie"/></svg>My Projects</span>
     </div>
-    <div class="addrbar"><span class="lab">Address</span><span class="field"><svg viewBox="0 0 48 48"><use href="#i-ie"/></svg><span class="addr">arnab-xp://projects</span></span><button class="gobtn">Go</button></div>`:''}`;
+    <div class="addrbar"><span class="lab">Address</span><span class="field"><svg viewBox="0 0 48 48"><use href="#i-ie"/></svg><span class="addr">arnab-xp://projects</span></span><button class="gobtn">Go</button></div>`:pr.nav==='about'?`<div class="toolbar">
+    <span class="tlbtn dis" data-nav="back"><svg viewBox="0 0 18 18"><use href="#i-back"/></svg>Back</span>
+    <span class="tlbtn dis" data-nav="fwd"><svg viewBox="0 0 18 18"><use href="#i-fwd"/></svg>Forward</span>
+    <span class="tlsep"></span>
+    <span class="tlbtn" data-openapp="projects"><svg viewBox="0 0 48 48" style="width:16px;height:16px"><use href="#i-ie"/></svg>My Projects</span>
+    <span class="tlbtn" data-openapp="resume"><svg viewBox="0 0 48 48" style="width:16px;height:16px"><use href="#i-pdf"/></svg>My Resume</span>
+    </div>
+    <div class="addrbar"><span class="lab">Address</span><span class="field"><svg viewBox="0 0 48 48"><use href="#i-pc"/></svg><span class="addr">About Me</span></span><button class="gobtn">Go</button></div>`:''}`;
   if(pr.menu==='notepad')return `<div class="menubar">
     <span class="mi" data-m="file">File<div class="mdd"><div class="di" data-act="np-clear">New</div><div class="di" data-act="close">Exit</div></div></span>
     <span class="mi" data-m="help">Help<div class="mdd"><div class="di" data-act="aboutxp">About Arnab XP</div></div></span></div>`;
   return '';
 }
 function aboutXpDialog(){
-  openProgram('about');
+  openProgram('aboutxp');
 }
 function wireWin(id,w,pr){
   const el=w.el, bar=el.querySelector('.titlebar');
@@ -908,7 +915,11 @@ function wireWin(id,w,pr){
   });
   document.addEventListener('click',()=>el.querySelectorAll('.menubar .mi').forEach(m=>m.classList.remove('open')));
   /* explorer nav */
-  if(pr.nav){
+  if(pr.nav==='about'){
+    el.querySelectorAll('[data-openapp]').forEach(b=>b.addEventListener('click',()=>{ clickSnd(); openProgram(b.dataset.openapp); }));
+    const go2=el.querySelector('.gobtn'); if(go2)go2.onclick=()=>dingSnd();
+  }
+  if(pr.nav===true){
     const hist=['home']; let hi=0;
     const addr=el.querySelector('.addr'), back=el.querySelector('[data-nav=back]'), fwd=el.querySelector('[data-nav=fwd]'), go=el.querySelector('.gobtn');
     function render(){
@@ -1025,15 +1036,15 @@ function ipodBody(){
 }
 function wireIpod(w){
   const rows=[...w.el.querySelectorAll('.row')], np=w.el.querySelector('.np b'), npa=w.el.querySelector('.npa'), f=w.el.querySelector('.f');
-  let sel=0;
+  let sel=0, menuMsg=false;
   function upd(){ rows.forEach((r,i)=>r.classList.toggle('on',i===sel)); }
-  function nowPlay(){ const t=TRACKS[player.idx]; np.textContent=player.playing?('Now: '+t.name):'Not playing'; npa.textContent=player.playing?t.artist:''; }
+  function nowPlay(){ if(menuMsg)return; const t=TRACKS[player.idx]; np.textContent=player.playing?('Now: '+t.name):'Not playing'; npa.textContent=player.playing?t.artist:''; }
   player.onTick=(pos,dur)=>{ f.style.width=(pos/dur*100)+'%'; nowPlay(); };
-  w.el.querySelector('.menu').onclick=()=>{ clickSnd(); np.textContent='Pick a song, press center'; };
-  w.el.querySelector('.ff').onclick=()=>{ clickSnd(); player.next(); sel=player.idx; upd(); nowPlay(); };
-  w.el.querySelector('.rw').onclick=()=>{ clickSnd(); player.prev(); sel=player.idx; upd(); nowPlay(); };
-  w.el.querySelector('.pp').onclick=()=>{ clickSnd(); if(player.playing)player.pause(); else if(player.elapsed>0)player.resume(); else { player.idx=sel; player.play(); } nowPlay(); };
-  w.el.querySelector('.center').onclick=()=>{ clickSnd(); player.play(sel); nowPlay(); };
+  w.el.querySelector('.menu').onclick=()=>{ clickSnd(); menuMsg=true; np.textContent='Pick a song, press center'; npa.textContent=''; };
+  w.el.querySelector('.ff').onclick=()=>{ clickSnd(); menuMsg=false; player.next(); sel=player.idx; upd(); nowPlay(); };
+  w.el.querySelector('.rw').onclick=()=>{ clickSnd(); menuMsg=false; player.prev(); sel=player.idx; upd(); nowPlay(); };
+  w.el.querySelector('.pp').onclick=()=>{ clickSnd(); menuMsg=false; if(player.playing)player.pause(); else if(player.elapsed>0)player.resume(); else { player.idx=sel; player.play(); } nowPlay(); };
+  w.el.querySelector('.center').onclick=()=>{ clickSnd(); menuMsg=false; player.play(sel); nowPlay(); };
   w.cleanup=()=>{ player.onTick=null; };
 }
 /* ---------------- MESSENGER ---------------- */
@@ -1179,7 +1190,7 @@ function wirePinball(w){
 function gbBody(){
   return `<div class="gb-shell"><div class="gb-scr"><canvas id="gbCv" width="160" height="144" tabindex="0"></canvas></div>
     <div class="gb-ctrls">
-      <div class="dpad"><button class="u">▲</button><button class="d">▼</button><button class="l">◀</button><button class="r">▶</button></div>
+      <div class="dpad"><button class="u">â²</button><button class="d">â¼</button><button class="l">â</button><button class="r">â¶</button></div>
       <div class="ab"><button>B</button><button>A</button></div>
     </div>
     <div class="gb-meta"><button class="sel">SELECT</button><button class="st">START</button></div></div>`;
