@@ -63,6 +63,12 @@ background:linear-gradient(180deg,#3a7bd5 0%,#5ea9ec 42%,#8ec9f5 55%,#69a83f 56%
 background:repeating-linear-gradient(0deg,rgba(0,0,0,.13) 0 1px,transparent 1px 3px)}
 #crt.on{display:block}
 
+
+#ctxMenu{position:fixed;z-index:9600;display:none;min-width:180px;background:#ece9d8;border:1px solid #8a8577;box-shadow:2px 2px 6px rgba(0,0,0,.4);padding:2px}
+#ctxMenu .ci{padding:5px 22px 5px 12px;font-size:11px;color:#222;cursor:default}
+#ctxMenu .ci:hover{background:#2f6fd8;color:#fff}
+#ctxMenu .sep{height:1px;background:#b5af9e;margin:3px 2px}
+
 /* ===== TASKBAR ===== */
 #taskbar{position:fixed;left:0;right:0;bottom:0;height:40px;z-index:7000;display:flex;align-items:stretch;
 background:linear-gradient(180deg,#2e68d8 0%,#1e4fc0 8%,#1a46b0 50%,#17409e 92%,#2a5cc8 100%);box-shadow:0 -1px 4px rgba(0,0,0,.4)}
@@ -230,6 +236,12 @@ background:linear-gradient(180deg,#0f8ae8 0%,#2a6fe0 8%,#1f5fd0 45%,#1a53c0 90%,
   </div>
 </div>
 
+<div id="ctxMenu">
+  <div class="ci" data-a="refresh">Refresh</div>
+  <div class="ci" data-a="crt">Toggle CRT effect</div>
+  <div class="sep"></div>
+  <div class="ci" data-a="about">Properties</div>
+</div>
 <div id="crt"></div>
 <div class="off" id="offScreen">It is now safe to turn off your computer.<br><br><span style="font-size:12px;color:#888">(refresh to boot again)</span></div>
 
@@ -246,6 +258,8 @@ notepad:'<svg viewBox="0 0 32 32" width="34" height="34"><rect x="6" y="3" width
 terminal:'<svg viewBox="0 0 32 32" width="34" height="34"><rect x="3" y="4" width="26" height="24" rx="2" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/><text x="7" y="17" font-family="monospace" font-size="11" fill="#7cba4f">C:\&gt;</text><rect x="7" y="20" width="10" height="2" fill="#7cba4f"/></svg>',
 bin:'<svg viewBox="0 0 32 32" width="34" height="34"><path d="M8 8h16l-2 21H10z" fill="#c8d8c8" stroke="#5a7a5a" stroke-width="1.5"/><rect x="6" y="5" width="20" height="3" rx="1" fill="#7a9a7a"/><rect x="13" y="2" width="6" height="3" rx="1" fill="#7a9a7a"/><line x1="13" y1="12" x2="13" y2="25" stroke="#5a7a5a" stroke-width="1.5"/><line x1="19" y1="12" x2="19" y2="25" stroke="#5a7a5a" stroke-width="1.5"/></svg>',
 person:'<svg viewBox="0 0 32 32" width="34" height="34"><circle cx="16" cy="11" r="6" fill="#f4a259"/><path d="M4 29c0-7 5-11 12-11s12 4 12 11" fill="#f4a259"/></svg>',
+mine:'<svg viewBox="0 0 32 32" width="34" height="34"><rect x="5" y="5" width="22" height="22" rx="3" fill="#c0c0c0" stroke="#777" stroke-width="1.5"/><circle cx="16" cy="16" r="6" fill="#222"/><line x1="16" y1="6" x2="16" y2="10" stroke="#222" stroke-width="2"/><line x1="16" y1="22" x2="16" y2="26" stroke="#222" stroke-width="2"/><line x1="6" y1="16" x2="10" y2="16" stroke="#222" stroke-width="2"/><line x1="22" y1="16" x2="26" y2="16" stroke="#222" stroke-width="2"/><circle cx="20" cy="11" r="2" fill="#d33"/></svg>',
+paint:'<svg viewBox="0 0 32 32" width="34" height="34"><path d="M20 4l8 8-13 13-8-8z" fill="#f4a259" stroke="#a34f00" stroke-width="1.5"/><rect x="5" y="19" width="8" height="8" rx="1" transform="rotate(-45 9 23)" fill="#7cbb00" stroke="#4a6d00" stroke-width="1.5"/><path d="M8 26c-2 2-4 2-5 1 1-1 1-3 2-4" fill="#2a6fd6"/></svg>',
 speaker:'<svg viewBox="0 0 24 24" width="16" height="16"><path d="M4 9v6h4l6 5V4L8 9H4z" fill="#fff"/><path d="M16 9c1.5 1.5 1.5 4.5 0 6" stroke="#fff" stroke-width="1.5" fill="none"/></svg>',
 tv:'<svg viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="5" width="18" height="13" rx="1.5" fill="none" stroke="#fff" stroke-width="1.6"/><line x1="9" y1="21" x2="15" y2="21" stroke="#fff" stroke-width="1.6"/></svg>'
 };
@@ -257,19 +271,26 @@ const openWins=new Map();
 /* ---------- audio (synthesized, no samples) ---------- */
 let actx=null;
 function ac(){ if(!actx){ try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } return actx; }
+let volScale=1;
 function tone(f,t0,dur,type,vol){
   if(!soundOn) return; const c=ac(); if(!c) return;
   const o=c.createOscillator(), g=c.createGain();
   o.type=type||"sine"; o.frequency.value=f;
   g.gain.setValueAtTime(0.0001,c.currentTime+t0);
-  g.gain.exponentialRampToValueAtTime(vol||0.12,c.currentTime+t0+0.02);
+  g.gain.exponentialRampToValueAtTime((vol||0.12)*volScale,c.currentTime+t0+0.02);
   g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+t0+dur);
   o.connect(g).connect(c.destination); o.start(c.currentTime+t0); o.stop(c.currentTime+t0+dur+0.05);
 }
 function chime(){ [523,659,784,1047].forEach((f,i)=>tone(f,i*0.16,0.5,"sine",0.10)); tone(1319,0.64,0.7,"sine",0.07); }
 function clickSnd(){ tone(1200,0,0.05,"square",0.03); }
 function openSnd(){ tone(660,0,0.07,"triangle",0.06); tone(990,0.07,0.09,"triangle",0.05); }
-$("#sndBtn").addEventListener("click",()=>{ soundOn=!soundOn; $("#sndBtn").style.opacity=soundOn?"1":"0.4"; if(soundOn) clickSnd(); });
+$("#sndBtn").addEventListener("click",()=>{
+  if(!soundOn){ soundOn=true; volScale=1; }
+  else if(volScale>0.6){ volScale=0.5; }
+  else { soundOn=false; volScale=1; }
+  $("#sndBtn").style.opacity=soundOn?(volScale<1?"0.7":"1"):"0.35";
+  clickSnd();
+});
 $("#crtBtn").addEventListener("click",()=>{ $("#crt").classList.toggle("on"); clickSnd(); });
 
 /* ---------- clock ---------- */
@@ -294,6 +315,15 @@ $("#userCard").addEventListener("click",()=>{
   $("#desktop").style.display="block";
   $("#taskbar").style.display="flex";
   renderIcons();
+  if(!sessionStorage.getItem("welcomed")){
+    sessionStorage.setItem("welcomed","1");
+    const b=document.createElement("div");
+    b.style.cssText="position:fixed;right:16px;bottom:52px;z-index:7400;background:#ffffd8;border:1px solid #999;border-radius:8px;padding:10px 14px;font-size:11px;color:#333;box-shadow:2px 2px 8px rgba(0,0,0,.35);max-width:230px";
+    b.innerHTML="<b>Welcome to Arnab XP</b><br>Double-click a desktop icon or press <b>start</b> to open programs. Right-click the desktop for options.";
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),9000);
+    b.addEventListener("click",()=>b.remove());
+  }
 });
 $("#powerBtn").addEventListener("click",()=>{ $("#login").style.display="none"; $("#offScreen").style.display="flex"; });
 $("#smLogoff").addEventListener("click",()=>{ toggleStart(false); [...openWins.keys()].forEach(closeWin); $("#desktop").style.display="none"; $("#taskbar").style.display="none"; showLogin(); });
@@ -307,9 +337,11 @@ const PROGRAMS={
  contact:{title:"Contact Me",icon:ICONS.mail,label:"Contact Me",w:460,h:380,body:contactBody(),status:["Ready"]},
  notepad:{title:"Untitled - Notepad",icon:ICONS.notepad,label:"Notepad",w:480,h:360,notepad:true,status:["Ln 1, Col 1"]},
  cmd:{title:"C:\\WINDOWS\\system32\\cmd.exe",icon:ICONS.terminal,label:"Command Prompt",w:560,h:380,cmd:true,status:["Command Prompt"]},
+ mines:{title:"Minesweeper",icon:ICONS.mine,label:"Minesweeper",w:480,h:560,iframe:"https://98.js.org/programs/minesweeper/",status:["Game"]},
+ paint:{title:"Paint",icon:ICONS.paint,label:"Paint",w:760,h:560,iframe:"https://jspaint.app/",status:["JS Paint (MIT) - jspaint.app"]},
  bin:{title:"Recycle Bin",icon:ICONS.bin,label:"Recycle Bin",w:420,h:300,body:'<div class="bin"><div class="g">'+ICONS.bin+'</div><div>The Recycle Bin is empty.</div><div style="color:#999;font-size:11px">No deleted files. Arnab keeps a clean desktop.</div></div>',status:["0 object(s)"]}
 };
-const DESKTOP_ICONS=["about","projects","resume","contact","notepad","cmd","bin"];
+const DESKTOP_ICONS=["about","projects","resume","contact","mines","paint","notepad","cmd","bin"];
 
 function renderIcons(){
   const host=$("#icons"); host.innerHTML="";
@@ -325,7 +357,7 @@ function renderIcons(){
 }
 
 /* ---------- start menu ---------- */
-const SM_LEFT=[["projects",ICONS.globe,"My Projects"],["resume",ICONS.doc,"Resume"],["contact",ICONS.mail,"Contact Me"],["notepad",ICONS.notepad,"Notepad"],["cmd",ICONS.terminal,"Command Prompt"]];
+const SM_LEFT=[["projects",ICONS.globe,"My Projects"],["resume",ICONS.doc,"Resume"],["contact",ICONS.mail,"Contact Me"],["notepad",ICONS.notepad,"Notepad"],["cmd",ICONS.terminal,"Command Prompt"],["mines",ICONS.mine,"Minesweeper"],["paint",ICONS.paint,"Paint"]];
 const SM_RIGHT=[["about","My Computer"],["bin","Recycle Bin"],["gh","GitHub - vio137"],["mail","E-mail Arnab"]];
 function buildStart(){
   const l=$("#smLeft"); l.innerHTML="";
@@ -346,6 +378,33 @@ function toggleStart(force){
 $("#startBtn").addEventListener("click",e=>{ e.stopPropagation(); toggleStart(); });
 document.addEventListener("click",e=>{ if(!e.target.closest("#startMenu")&&!e.target.closest("#startBtn")) toggleStart(false); });
 
+/* ---------- context menu ---------- */
+const ctxMenu=$("#ctxMenu");
+$("#desktop").addEventListener("contextmenu",e=>{
+  if(e.target.closest(".win")) return;
+  e.preventDefault();
+  ctxMenu.style.display="block";
+  ctxMenu.style.left=Math.min(e.clientX,window.innerWidth-200)+"px";
+  ctxMenu.style.top=Math.min(e.clientY,window.innerHeight-140)+"px";
+});
+document.addEventListener("click",()=>{ ctxMenu.style.display="none"; });
+ctxMenu.addEventListener("click",e=>{
+  const a=e.target.dataset&&e.target.dataset.a; if(!a) return;
+  if(a==="refresh"){ renderIcons(); clickSnd(); }
+  if(a==="crt"){ $("#crt").classList.toggle("on"); }
+  if(a==="about"){ openProgram("about"); }
+});
+let lpTimer=null;
+$("#desktop").addEventListener("touchstart",e=>{
+  if(e.target.closest(".win")) return;
+  lpTimer=setTimeout(()=>{ const t=e.touches[0];
+    ctxMenu.style.display="block";
+    ctxMenu.style.left=Math.min(t.clientX,window.innerWidth-200)+"px";
+    ctxMenu.style.top=Math.min(t.clientY,window.innerHeight-140)+"px"; },550);
+},{passive:true});
+$("#desktop").addEventListener("touchend",()=>clearTimeout(lpTimer));
+$("#desktop").addEventListener("touchmove",()=>clearTimeout(lpTimer));
+
 /* ---------- window manager ---------- */
 function openProgram(id){
   const pr=PROGRAMS[id]; if(!pr) return;
@@ -353,15 +412,17 @@ function openProgram(id){
   openSnd();
   const w=document.createElement("div"); w.className="win"; w.dataset.id=id;
   const mobile=window.innerWidth<640;
-  w.style.width=Math.min(pr.w,window.innerWidth-8)+"px";
-  w.style.height=Math.min(pr.h,window.innerHeight-90)+"px";
-  w.style.left=Math.max(4,(window.innerWidth-parseInt(w.style.width))/2 + (winSeq%5)*26 - 52)+"px";
-  w.style.top=Math.max(4,30+(winSeq%5)*22)+"px";
+  const mob=window.innerWidth<640;
+  w.style.width=(mob?window.innerWidth-8:Math.min(pr.w,window.innerWidth-8))+"px";
+  w.style.height=(mob?Math.min(pr.h,window.innerHeight-120):Math.min(pr.h,window.innerHeight-90))+"px";
+  w.style.left=(mob?4:Math.max(4,(window.innerWidth-parseInt(w.style.width))/2 + (winSeq%5)*26 - 52))+"px";
+  w.style.top=(mob?8:Math.max(4,30+(winSeq%5)*22))+"px";
   winSeq++;
   let menus='<div class="menubar"><span data-m="file">File</span><span data-m="view">View</span><span data-m="help">Help</span></div>';
   let addr=pr.ie?'<div class="addrbar">Address<div class="ab">'+ICONS.globe.replace('width="34" height="34"','width="14" height="14"')+' '+pr.addr+'</div></div>':'';
   let body;
   if(pr.notepad) body='<div class="winbody"><textarea class="notepad-ta" spellcheck="false">Notes to self:\n- Finish M.Tech strong\n- Ship Scamometer + UPO to the Chrome Web Store\n- Keep breaking things (ethically)\n</textarea></div>';
+  else if(pr.iframe) body='<div class="winbody"><iframe src="'+pr.iframe+'" style="width:100%;height:100%;border:none" loading="lazy" referrerpolicy="no-referrer"></iframe></div>';
   else if(pr.cmd) body='<div class="winbody"><div class="cmd"><div class="out">Microsoft Windows XP [Version 5.1.2600]\n(C) Copyright 1985-2001 Microsoft Corp.\n\nC:\\Users\\Arnab> </div><div class="in"><span class="p">C:\\Users\\Arnab&gt;&nbsp;</span><input type="text" autofocus aria-label="command input"></div></div></div>';
   else body='<div class="winbody pad">'+pr.body+'</div>';
   const status='<div class="statusbar">'+(pr.status||["Ready"]).map(s=>'<span class="sp">'+s+'</span>').join("")+'</div>';
