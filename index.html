@@ -1146,7 +1146,7 @@ function wirePinball(w){
     ctx.fillStyle='#7ec8f2'; ctx.beginPath(); ctx.arc(ball.x-2.5,ball.y-2.5,3,0,7); ctx.fill();
     ctx.fillStyle='#fff'; ctx.font='bold 15px Tahoma'; ctx.fillText('SCORE '+score,14,28);
     if(over){ ctx.fillStyle='#ff6a4a'; ctx.font='bold 20px Tahoma'; ctx.fillText('BALL LOST',118,240); ctx.font='13px Tahoma'; ctx.fillStyle='#fff'; ctx.fillText('Z or tap to relaunch',104,264); }
-    if(!playing&&!over){ ctx.fillStyle='#9fc0f0'; ctx.font='12px Tahoma'; ctx.fillText('Hold SPACE (or hold Z) to charge,',70,240); ctx.fillText('release to launch. Z / M = flippers.',70,258); }
+    if(!playing&&!over){ ctx.fillStyle='#9fc0f0'; ctx.font='12px Tahoma'; ctx.fillText('Hold SPACE (or hold the bottom strip)',58,240); ctx.fillText('to charge, release to launch. Z / M or',70,258); ctx.fillText('tap left/right side for flippers.',70,276); }
   }
   function launch(){ if(over){reset();} if(!playing){ playing=true; ball.vy=-(9+plunger*13); ball.vx=-2; plunger=0; charging=false; } }
   function kd(e){ const k=e.key.toLowerCase(); keys[k]=true;
@@ -1155,10 +1155,11 @@ function wirePinball(w){
   function ku(e){ const k=e.key.toLowerCase(); keys[k]=false;
     if(k===' '){ launch(); e.preventDefault(); } }
   cv.addEventListener('keydown',kd); cv.addEventListener('keyup',ku);
-  cv.addEventListener('pointerdown',e=>{ cv.focus(); const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*(W/r.width);
-    if(x<W/2)keys['z']=true; else keys['m']=true;
-    if(!playing||over){ charging=true; } });
-  addEventListener('pointerup',()=>{ keys['z']=false; keys['m']=false; if(charging)launch(); });
+  let chargePointer=false;
+  cv.addEventListener('pointerdown',e=>{ cv.focus(); const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*(W/r.width),y=(e.clientY-r.top)*(H/r.height);
+    if(y>H-110){ if(!playing||over){ charging=true; chargePointer=true; } }
+    else { if(x<W/2)keys['z']=true; else keys['m']=true; } });
+  addEventListener('pointerup',()=>{ keys['z']=false; keys['m']=false; if(chargePointer&&charging){launch();} chargePointer=false; });
   cv.focus(); requestAnimationFrame(phys);
   w.cleanup=()=>{ cv.removeEventListener('keydown',kd); cv.removeEventListener('keyup',ku); };
 }
@@ -1245,7 +1246,7 @@ function wireDisplay(w){
 /* ---------------- SCAMOMETER LAB ---------------- */
 function scamlabBody(){
   return `<div class="scamlab">
-    <div class="note"><b>Scamometer Lab</b> - a local demo of the detection ideas behind the real Scamometer extension (two independent analyzers cross-checking, like its dual-LLM design). Rule-based, runs in this page, nothing is sent anywhere.</div>
+    <div class="note"><b>Scamometer Lab</b> - a toy demo of the detection idea behind the real Scamometer extension (two independent analyzers cross-checking, like its dual-LLM design). Simple keyword rules, runs in this page, nothing is sent anywhere. Verdicts are illustrative only - not the extension's LLM analysis and never a guarantee a message is safe.</div>
     <textarea class="xpfield" placeholder="Paste a suspicious message, email or URL here..." ></textarea>
     <div class="anrow">
       <div class="an"><h4>Analyzer A - content signals</h4><div class="body"><i>Paste something and press Analyze.</i></div></div>
@@ -1265,7 +1266,7 @@ function wireScamlab(w){
     ['generic greeting',t=>/dear (customer|user|sir|madam|friend|account holder)/i.test(t),14],
     ['reply-to mismatch',t=>/reply.to|different address|not from.*@/i.test(t),10],
     ['phone/itn number drop',t=>/\+?\d[\d\s\-()]{8,}\d/.test(t)&&/call|whatsapp|text/i.test(t),12]];
-  function band(v){ return v<30?['safe','Looks safe']:v<60?['sus','Suspicious - check carefully']:['scam','Likely scam']; }
+  function band(v){ return v<30?['safe','No red flags from these demo rules']:v<60?['sus','Suspicious - check carefully']:['scam','Likely scam']; }
   function analyze(){
     const t=ta.value;
     if(!t.trim()){ verdict.className='verdict sus'; verdict.textContent='Paste a message or URL first.'; return; }
