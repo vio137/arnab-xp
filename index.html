@@ -748,6 +748,11 @@ const PROGRAMS={
   cmd:{t:'C:\\WINDOWS\\system32\\cmd.exe',ic:'i-cmd',w:560,h:380,body:()=>'<div class="cmdterm"></div>',menu:'basic',status:'',wire:wireCmd},
   mines:{t:'Minesweeper',ic:'i-mine',w:480,h:600,body:()=>'<iframe class="iframe-c" src="https://98.js.org/programs/minesweeper/" title="Minesweeper"></iframe>',menu:'basic',status:''},
   paint:{t:'untitled - Paint',ic:'i-brush',w:900,h:640,body:()=>'<iframe class="iframe-c" src="https://jspaint.app/" title="Paint" style="background:#fff"></iframe>',menu:'basic',status:''},
+  aboutxp:{t:'About Arnab XP',ic:'i-flag',w:430,h:330,body:()=>`<div class="pad" style="display:flex;gap:14px;align-items:flex-start">
+    <svg viewBox="0 0 120 96" style="width:64px;height:52px;flex:none;margin-top:4px"><use href="#i-flag"/></svg>
+    <div><h2>Arnab XP</h2><p>Version 1.0 - portfolio build. A Windows XP-style web desktop, hand-rolled as a single page of HTML, CSS and JavaScript.</p>
+    <p>Inspired by mitchivin.com. Not affiliated with or endorsed by Microsoft.</p>
+    <p>Every app is an original reimplementation. Minesweeper and Paint run the same MIT-licensed 98.js.org and jspaint.app embeds the inspiration site uses.</p></div></div>`,menu:'basic',status:'Original work - no source code or assets copied'},
   bin:{t:'Recycle Bin',ic:'i-bin',w:480,h:340,body:()=>'<div class="pad"><h2>Recycle Bin</h2><p>The Recycle Bin is empty. Deleted drafts, dead ends and 3 AM ideas never make it here - they get shipped instead.</p></div>',menu:'basic',status:'0 object(s)'},
   wmp:{t:'Windows Media Player',ic:'i-wmp',w:460,h:420,body:()=>wmpBody(),menu:'basic',status:'Ready - tracks are generated synth chiptunes',wire:wireWmp},
   ipod:{t:'MiPod Classic',ic:'i-ipod',w:340,h:520,body:()=>ipodBody(),menu:'basic',status:'',wire:wireIpod},
@@ -897,7 +902,7 @@ function wireWin(id,w,pr){
       const act=di.dataset.act;
       if(act==='close')closeWin(id);
       else if(act==='status'){ const sb=el.querySelector('.statusbar'); if(sb){ sb.style.display=sb.style.display==='none'?'flex':'none'; di.classList.toggle('on'); } }
-      else if(act==='aboutxp')openProgram('about');
+      else if(act==='aboutxp')openProgram('aboutxp');
       else if(act==='np-clear'){ const ta=el.querySelector('.notepad-ta'); if(ta)ta.value=''; }
     });
   });
@@ -1372,7 +1377,7 @@ PROGRAMS.realm={t:'Realm Login (unbranded tribute)',ic:'i-realm',w:640,h:480,bod
 /* ---------------- DESKTOP ICONS ---------------- */
 const DESKTOP_ICONS=['about','resume','projects','contact'];
 const ICON_LBL={about:'About Me',resume:'My Resume',projects:'My Projects',contact:'Contact Me',mines:'Minesweeper',paint:'Paint',notepad:'Notepad',cmd:'Command Prompt',bin:'Recycle Bin',wmp:'Media Player',ipod:'MiPod Classic',messenger:'Live Messenger',imgview:'Image Viewer',pinball:'Pinball',gameboy:'Mi Boy Color',display:'Display Properties'};
-ICONS.scamlab='i-sec'; ICONS.realm='i-realm';
+ICONS.scamlab='i-sec'; ICONS.realm='i-realm'; ICONS.aboutxp='i-flag';
 ICON_LBL.scamlab='Scamometer Lab'; ICON_LBL.realm='Realm Login';
 function renderIcons(){
   const c=$('#icons'); c.innerHTML='';
@@ -1414,7 +1419,7 @@ function buildStart(){
   R.innerHTML+='<div class="smi sep"></div>';
   SM_RIGHT2.forEach(([id,t])=>R.innerHTML+=`<div class="smi" data-id="${id}"><svg viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span class="tx"><b>${t}</b></span></div>`);
   R.innerHTML+='<div class="smi sep"></div>';
-  R.innerHTML+=`<div class="smi" data-id="about"><svg viewBox="0 0 120 96"><use href="#i-flag"/></svg><span class="tx"><b>About Arnab XP</b></span></div>`;
+  R.innerHTML+=`<div class="smi" data-id="aboutxp"><svg viewBox="0 0 120 96"><use href="#i-flag"/></svg><span class="tx"><b>About Arnab XP</b></span></div>`;
 }
 buildStart();
 function closeStart(){ $('#startmenu').style.display='none'; $('#startbtn').classList.remove('open'); $('#flyout').style.display='none'; }
@@ -1424,6 +1429,7 @@ $('#startbtn').addEventListener('click',e=>{
   if(open)closeStart(); else { $('#startmenu').style.display='block'; $('#startbtn').classList.add('open'); }
 });
 document.addEventListener('click',e=>{ if(!e.target.closest('#startmenu')&&!e.target.closest('#flyout')&&!e.target.closest('#startbtn'))closeStart(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeStart(); });
 $('#startmenu').addEventListener('click',e=>{
   const s=e.target.closest('.smi'); if(!s)return;
   if(s.dataset.id){ clickSnd(); closeStart(); openProgram(s.dataset.id); }
