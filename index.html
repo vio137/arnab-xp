@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="description" content="Arnab Mandal - M.Tech Information Security student at MAKAUT. Arnab XP is a Windows XP style desktop you can boot in your browser.">
+<meta name="author" content="Arnab Mandal">
+<title>Arnab XP</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 fill=%22%232a6fd6%22/><text x=%226%22 y=%2222%22 font-size=%2216%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>AX</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:Tahoma,'Segoe UI',Verdana,sans-serif;font-size:11px;background:#000;user-select:none;-webkit-user-select:none}
+button{font-family:inherit}
+::-webkit-scrollbar{width:14px;height:14px}
+::-webkit-scrollbar-track{background:#ece9d8}
+::-webkit-scrollbar-thumb{background:#c0cabf;border:1px solid #8a968d;border-radius:2px}
+
+/* ===== BOOT ===== */
+#boot{position:fixed;inset:0;background:#000;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}
+#boot .logo{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.flag{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:44px;height:40px;transform:skewX(-8deg)}
+.flag span{border-radius:40% 60% 55% 45%/55% 45% 60% 40%}
+.flag .r{background:#f65314}.flag .g{background:#7cbb00}.flag .b{background:#00a1f1}.flag .y{background:#ffbb00}
+#boot .wordmark{font-size:42px;font-weight:300;letter-spacing:1px}
+#boot .wordmark b{font-weight:700}
+#boot .xp-tag{font-size:15px;color:#bbb;margin-top:2px;letter-spacing:6px}
+#boot .bar{width:220px;height:16px;border:1px solid #888;border-radius:3px;margin-top:60px;padding:2px;overflow:hidden}
+#boot .bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#2f6fd8 0 10px,transparent 10px 14px)}
+#boot .copy{position:absolute;bottom:26px;font-size:11px;color:#999}
+
+/* ===== LOGIN ===== */
+#login{position:fixed;inset:0;z-index:8000;display:none;background:linear-gradient(180deg,#0831a8 0%,#2a5fd7 45%,#5b8def 100%);color:#fff}
+#login .bar-top,#login .bar-bot{position:absolute;left:0;right:0;height:60px;background:linear-gradient(180deg,#0a36b0,#062saud)}
+#login .bar-top{top:0;background:linear-gradient(180deg,#1240c8,#0a2f9e)}
+#login .bar-bot{bottom:0;background:linear-gradient(180deg,#0a2f9e,#1240c8);display:flex;align-items:center;justify-content:space-between;padding:0 22px}
+#login .center{position:absolute;inset:60px 0;display:flex;align-items:center;justify-content:center;gap:60px;flex-wrap:wrap}
+#login .brand{text-align:center}
+#login .brand .wordmark{font-size:46px;font-weight:300}
+#login .brand .wordmark b{font-weight:700}
+#login .brand p{margin-top:8px;color:#cfe0ff;font-size:13px}
+#login .divider{width:2px;align-self:stretch;background:linear-gradient(180deg,transparent,rgba(255,255,255,.55),transparent)}
+.user-card{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:16px 22px;cursor:pointer;transition:background .15s;min-width:280px}
+.user-card:hover{background:rgba(255,255,255,.28)}
+.user-card .avatar{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#ffd983,#f4a259);display:flex;align-items:center;justify-content:center;font-size:30px;border:2px solid #fff}
+.user-card .who{font-size:16px;font-weight:700}
+.user-card .sub{font-size:11px;color:#dbe7ff;margin-top:2px}
+#login .hint{position:absolute;bottom:74px;width:100%;text-align:center;color:#dbe7ff;font-size:12px}
+#login .power{display:flex;align-items:center;gap:8px;background:none;border:none;color:#fff;font-size:12px;cursor:pointer}
+#login .power .ico{width:26px;height:26px;border-radius:5px;background:linear-gradient(180deg,#f6b73c,#e07b12);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;border:1px solid #fff3}
+
+/* ===== DESKTOP ===== */
+#desktop{position:fixed;inset:0 0 40px 0;display:none;overflow:hidden;
+background:linear-gradient(180deg,#3a7bd5 0%,#5ea9ec 42%,#8ec9f5 55%,#69a83f 56%,#4d8a2f 78%,#3a6d22 100%)}
+#desktop::before{content:"";position:absolute;left:-10%;right:-10%;bottom:-38%;height:75%;background:radial-gradient(ellipse at 50% 0%,#7cc24e 0%,#57a037 45%,#3f7f26 100%);border-radius:50% 50% 0 0;pointer-events:none}
+#icons{position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:6px;z-index:2}
+.dicon{width:92px;padding:8px 4px;text-align:center;cursor:pointer;border-radius:3px;border:1px solid transparent}
+.dicon:hover{background:rgba(255,255,255,.18)}
+.dicon.sel{background:rgba(49,106,197,.45);border-color:rgba(255,255,255,.5)}
+.dicon .g{line-height:1;filter:drop-shadow(1px 2px 2px rgba(0,0,0,.4))}
+.dicon .l{margin-top:5px;color:#fff;font-size:11px;text-shadow:1px 1px 2px #000;line-height:1.25}
+#crt{position:fixed;inset:0;pointer-events:none;z-index:9500;display:none;
+background:repeating-linear-gradient(0deg,rgba(0,0,0,.13) 0 1px,transparent 1px 3px)}
+#crt.on{display:block}
+
+/* ===== TASKBAR ===== */
+#taskbar{position:fixed;left:0;right:0;bottom:0;height:40px;z-index:7000;display:flex;align-items:stretch;
+background:linear-gradient(180deg,#2e68d8 0%,#1e4fc0 8%,#1a46b0 50%,#17409e 92%,#2a5cc8 100%);box-shadow:0 -1px 4px rgba(0,0,0,.4)}
+#startBtn{display:flex;align-items:center;gap:7px;padding:0 18px 0 12px;border:none;cursor:pointer;color:#fff;font-size:15px;font-weight:700;font-style:italic;
+background:linear-gradient(180deg,#5fa944 0%,#3d8b2a 45%,#2f7a1f 100%);border-radius:0 14px 14px 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),2px 0 5px rgba(0,0,0,.35)}
+#startBtn:hover{filter:brightness(1.12)}
+#startBtn .flag{width:20px;height:18px}
+#startBtn .flag span{border-radius:40% 60% 55% 45%/55% 45% 60% 40%}
+#tasks{flex:1;display:flex;gap:4px;padding:4px 6px;overflow:hidden}
+.taskbtn{display:flex;align-items:center;gap:6px;min-width:120px;max-width:200px;padding:0 10px;border-radius:3px;border:1px solid rgba(255,255,255,.22);cursor:pointer;color:#fff;font-size:11px;background:linear-gradient(180deg,#3f79e0,#2a5dc4);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.taskbtn svg{width:14px;height:14px}
+.taskbtn.active{background:linear-gradient(180deg,#17409e,#0f3180);box-shadow:inset 0 2px 4px rgba(0,0,0,.35)}
+.taskbtn:hover{filter:brightness(1.15)}
+#tray{display:flex;align-items:center;gap:10px;padding:0 14px;background:linear-gradient(180deg,#1793e8,#0f7ad0);color:#fff;font-size:11px;border-left:1px solid rgba(255,255,255,.25)}
+#tray .tico{cursor:pointer;font-size:13px}
+#clock{font-variant-numeric:tabular-nums}
+
+/* ===== START MENU ===== */
+#startMenu{position:fixed;left:0;bottom:40px;width:380px;max-width:96vw;z-index:7500;display:none;border-radius:8px 8px 0 0;overflow:hidden;
+background:#1c49b8;box-shadow:3px -3px 14px rgba(0,0,0,.5)}
+#startMenu .sm-head{display:flex;align-items:center;gap:10px;padding:10px 12px;color:#fff;background:linear-gradient(180deg,#2a5fd7,#1a46b0)}
+#startMenu .sm-head .avatar{width:42px;height:42px;border-radius:6px;background:linear-gradient(135deg,#ffd983,#f4a259);display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid #fff}
+#startMenu .sm-head .n{font-size:15px;font-weight:700}
+#startMenu .sm-body{display:flex;background:#fff;min-height:280px}
+#startMenu .sm-left{flex:1.15;padding:8px 0;background:#fff}
+#startMenu .sm-right{flex:1;background:#cfe0f7;padding:8px 0;border-left:1px solid #9db9e0}
+.smi{display:flex;align-items:center;gap:9px;padding:6px 12px;cursor:pointer;font-size:12px;color:#222}
+.smi:hover{background:#2f6fd8;color:#fff}
+.smi .g svg{width:22px;height:22px}
+#startMenu .sm-right .smi{color:#173a75;font-weight:700;font-size:11px}
+#startMenu .sm-right .smi:hover{background:#2f6fd8;color:#fff}
+#startMenu .sm-foot{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px;background:linear-gradient(180deg,#1a46b0,#1240c8)}
+#startMenu .sm-foot button{display:flex;align-items:center;gap:6px;background:none;border:none;color:#fff;font-size:11px;cursor:pointer;padding:4px 6px;border-radius:3px}
+#startMenu .sm-foot button:hover{background:rgba(255,255,255,.18)}
+#startMenu .sm-credit{color:#c9d9ff;font-size:10px;padding:4px 12px 8px;background:#1240c8}
+
+/* ===== WINDOWS ===== */
+.win{position:absolute;min-width:280px;min-height:180px;display:flex;flex-direction:column;border-radius:8px 8px 0 0;overflow:hidden;
+box-shadow:2px 3px 18px rgba(0,0,0,.55);background:#ece9d8;border:1px solid #0f3180}
+.win.inactive .titlebar{background:linear-gradient(180deg,#9db8d8,#7e9fc4)}
+.titlebar{height:30px;display:flex;align-items:center;gap:7px;padding:0 6px 0 9px;color:#fff;cursor:move;
+background:linear-gradient(180deg,#0f8ae8 0%,#2a6fe0 8%,#1f5fd0 45%,#1a53c0 90%,#3f79e0 100%)}
+.titlebar .t-ico svg{width:16px;height:16px;vertical-align:middle}
+.titlebar .t-name{flex:1;font-size:12px;font-weight:700;text-shadow:1px 1px 2px rgba(0,0,0,.6);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tbtns{display:flex;gap:2px}
+.tbtn{width:24px;height:22px;border:1px solid rgba(255,255,255,.6);border-radius:3px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#5a8fe8,#2a5dc4)}
+.tbtn:hover{filter:brightness(1.2)}
+.tbtn.close{background:linear-gradient(180deg,#f0836f,#d13c1e)}
+.menubar{display:flex;gap:2px;background:#ece9d8;padding:2px 6px;border-bottom:1px solid #d4d0c8;font-size:11px}
+.menubar span{padding:2px 7px;cursor:default;border-radius:2px}
+.menubar span:hover{background:#2f6fd8;color:#fff}
+.addrbar{display:flex;align-items:center;gap:6px;background:#ece9d8;padding:3px 8px;border-bottom:1px solid #d4d0c8;font-size:11px;color:#555}
+.addrbar .ab{flex:1;background:#fff;border:1px solid #7f9db9;padding:2px 6px;font-size:11px;color:#333;display:flex;align-items:center;gap:6px}
+.winbody{flex:1;overflow:auto;background:#fff;padding:0;position:relative}
+.winbody.pad{padding:14px}
+.statusbar{display:flex;gap:0;background:#ece9d8;border-top:1px solid #d4d0c8;font-size:11px;color:#444}
+.statusbar .sp{padding:2px 10px;border-right:1px solid #d4d0c8}
+.rsz{position:absolute;right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize;z-index:5}
+
+/* app content */
+.about-grid{display:grid;grid-template-columns:1fr;gap:12px;padding:16px}
+.about-hero{display:flex;gap:14px;align-items:center;background:#f4f8ff;border:1px solid #c9d9f2;border-radius:6px;padding:14px}
+.about-hero .avatar{width:64px;height:64px;border-radius:8px;background:linear-gradient(135deg,#ffd983,#f4a259);display:flex;align-items:center;justify-content:center;font-size:34px}
+.about-hero h1{font-size:18px;color:#173a75}
+.about-hero p{color:#445;font-size:12px;margin-top:3px}
+.fact{border-left:3px solid #2f6fd8;background:#f7f9fd;padding:8px 12px;font-size:12px;color:#333;line-height:1.5}
+.fact b{color:#173a75}
+.proj{padding:14px}
+.proj h2{font-size:15px;color:#173a75;margin-bottom:10px}
+.pcard{border:1px solid #c9d9f2;border-radius:6px;padding:12px;margin-bottom:10px;background:#fbfcff}
+.pcard h3{font-size:13px;color:#0f4fb8;margin-bottom:4px}
+.pcard p{font-size:12px;color:#444;line-height:1.5}
+.pcard a{color:#0f4fb8;font-size:11px}
+.pcard .tag{display:inline-block;background:#e3ecfb;color:#173a75;font-size:10px;border-radius:3px;padding:1px 6px;margin:4px 4px 0 0}
+.resume{padding:16px;font-size:12px;color:#333;line-height:1.55}
+.resume h1{font-size:19px;color:#173a75}
+.resume .sub{color:#667;margin-bottom:10px}
+.resume h2{font-size:13px;color:#0f4fb8;border-bottom:1px solid #c9d9f2;margin:12px 0 6px;padding-bottom:2px}
+.resume ul{margin-left:18px}
+.contact{padding:16px;font-size:12px;color:#333}
+.contact .crow{display:flex;align-items:center;gap:10px;border:1px solid #c9d9f2;border-radius:6px;padding:10px 12px;margin-bottom:9px;background:#fbfcff}
+.contact .crow .g{font-size:20px}
+.contact a{color:#0f4fb8}
+.notepad-ta{width:100%;height:100%;border:none;outline:none;resize:none;font-family:'Lucida Console',Monaco,monospace;font-size:12px;padding:8px;background:#fff;color:#222;user-select:text;-webkit-user-select:text}
+.cmd{white-space:pre-wrap;background:#0c0c0c;color:#e8e8e8;height:100%;overflow:auto;padding:8px;font-family:'Lucida Console',Monaco,monospace;font-size:12px;line-height:1.45;user-select:text;-webkit-user-select:text}
+.cmd .in{display:flex}
+.cmd input{flex:1;background:none;border:none;outline:none;color:#e8e8e8;font:inherit}
+.cmd .p{color:#7cba4f}
+.bin{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#666;font-size:12px;gap:8px}
+.bin .g{font-size:44px}
+.ie-head{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#f4f8ff;border-bottom:1px solid #c9d9f2;font-size:12px;color:#445}
+.off{position:fixed;inset:0;background:#000;color:#f7c948;z-index:9600;display:none;align-items:center;justify-content:center;font-size:20px;text-align:center;padding:20px}
+
+@media (max-width:640px){
+  #startMenu{width:100vw;left:0}
+  .win{max-width:100vw!important}
+  .dicon{width:76px}
+  #login .divider{display:none}
+  .taskbtn{min-width:44px}
+  .taskbtn .tt{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="boot">
+  <div class="logo">
+    <div class="flag"><span class="r"></span><span class="g"></span><span class="b"></span><span class="y"></span></div>
+    <div>
+      <div class="wordmark">Arnab<b>XP</b></div>
+      <div class="xp-tag">PERSONAL EDITION</div>
+    </div>
+  </div>
+  <div class="bar"><i id="bootFill"></i></div>
+  <div class="copy">Copyright &copy; Arnab Mandal</div>
+</div>
+
+<div id="login">
+  <div class="bar-top"></div>
+  <div class="center">
+    <div class="brand">
+      <div class="wordmark">Arnab<b>XP</b></div>
+      <p>To begin, click your user name</p>
+    </div>
+    <div class="divider"></div>
+    <div class="user-card" id="userCard">
+      <div class="avatar"><svg viewBox="0 0 32 32" width="34" height="34"><circle cx="16" cy="11" r="6" fill="#a34f00"/><path d="M4 29c0-7 5-11 12-11s12 4 12 11" fill="#a34f00"/></svg></div>
+      <div>
+        <div class="who">Arnab Mandal</div>
+        <div class="sub">M.Tech Information Security &middot; MAKAUT</div>
+      </div>
+    </div>
+  </div>
+  <div class="hint">After you log on, you can open programs from the desktop or the Start menu.</div>
+  <div class="bar-bot">
+    <button class="power" id="powerBtn"><span class="ico">&#10683;</span> Turn off computer</button>
+    <span style="font-size:11px;color:#cfe0ff">Arnab XP</span>
+  </div>
+</div>
+
+<div id="desktop">
+  <div id="icons"></div>
+</div>
+
+<div id="startMenu">
+  <div class="sm-head"><div class="avatar"><svg viewBox="0 0 32 32" width="34" height="34"><circle cx="16" cy="11" r="6" fill="#a34f00"/><path d="M4 29c0-7 5-11 12-11s12 4 12 11" fill="#a34f00"/></svg></div><div class="n">Arnab Mandal</div></div>
+  <div class="sm-body">
+    <div class="sm-left" id="smLeft"></div>
+    <div class="sm-right" id="smRight"></div>
+  </div>
+  <div class="sm-foot">
+    <button id="smLogoff">&#9679; Log Off</button>
+    <button id="smOff">&#9211; Turn Off Computer</button>
+  </div>
+  <div class="sm-credit">Arnab XP &middot; desktop concept inspired by mitchivin.com</div>
+</div>
+
+<div id="taskbar" style="display:none">
+  <button id="startBtn"><span class="flag"><span class="r"></span><span class="g"></span><span class="b"></span><span class="y"></span></span>start</button>
+  <div id="tasks"></div>
+  <div id="tray">
+    <span class="tico" id="crtBtn" title="CRT effect"><svg viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="5" width="18" height="13" rx="1.5" fill="none" stroke="#fff" stroke-width="1.6"/><line x1="9" y1="21" x2="15" y2="21" stroke="#fff" stroke-width="1.6"/></svg></span>
+    <span class="tico" id="sndBtn" title="Sound"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M4 9v6h4l6 5V4L8 9H4z" fill="#fff"/><path d="M16 9c1.5 1.5 1.5 4.5 0 6" stroke="#fff" stroke-width="1.5" fill="none"/></svg></span>
+    <span id="clock"></span>
+  </div>
+</div>
+
+<div id="crt"></div>
+<div class="off" id="offScreen">It is now safe to turn off your computer.<br><br><span style="font-size:12px;color:#888">(refresh to boot again)</span></div>
+
+<script>
+(function(){
+"use strict";
+
+const ICONS={
+computer:'<svg viewBox="0 0 32 32" width="34" height="34"><rect x="3" y="4" width="26" height="18" rx="2" fill="#2a6fd6" stroke="#0c3c8c"/><rect x="5" y="6" width="22" height="14" fill="#9fd0ff"/><rect x="10" y="24" width="12" height="3" fill="#888"/><rect x="6" y="27" width="20" height="2" fill="#666"/></svg>',
+globe:'<svg viewBox="0 0 32 32" width="34" height="34"><circle cx="16" cy="16" r="13" fill="#3a8ee6" stroke="#0c3c8c" stroke-width="1.5"/><ellipse cx="16" cy="16" rx="6" ry="13" fill="none" stroke="#dff0ff" stroke-width="1.5"/><line x1="3" y1="16" x2="29" y2="16" stroke="#dff0ff" stroke-width="1.5"/><path d="M6 8h20M6 24h20" stroke="#dff0ff" stroke-width="1.3" fill="none"/></svg>',
+doc:'<svg viewBox="0 0 32 32" width="34" height="34"><path d="M7 2h12l6 6v22H7z" fill="#fff" stroke="#7f9db9" stroke-width="1.5"/><path d="M19 2v6h6" fill="#cfe0f7" stroke="#7f9db9" stroke-width="1.5"/><line x1="11" y1="13" x2="21" y2="13" stroke="#2a6fd6" stroke-width="1.6"/><line x1="11" y1="17" x2="21" y2="17" stroke="#2a6fd6" stroke-width="1.6"/><line x1="11" y1="21" x2="18" y2="21" stroke="#2a6fd6" stroke-width="1.6"/></svg>',
+mail:'<svg viewBox="0 0 32 32" width="34" height="34"><rect x="3" y="7" width="26" height="18" rx="2" fill="#fff" stroke="#7f9db9" stroke-width="1.5"/><path d="M4 8l12 10L28 8" fill="none" stroke="#2a6fd6" stroke-width="2"/></svg>',
+notepad:'<svg viewBox="0 0 32 32" width="34" height="34"><rect x="6" y="3" width="20" height="26" rx="2" fill="#fff" stroke="#7f9db9" stroke-width="1.5"/><line x1="10" y1="9" x2="22" y2="9" stroke="#999" stroke-width="1.5"/><line x1="10" y1="13" x2="22" y2="13" stroke="#999" stroke-width="1.5"/><line x1="10" y1="17" x2="22" y2="17" stroke="#999" stroke-width="1.5"/><line x1="10" y1="21" x2="17" y2="21" stroke="#999" stroke-width="1.5"/></svg>',
+terminal:'<svg viewBox="0 0 32 32" width="34" height="34"><rect x="3" y="4" width="26" height="24" rx="2" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/><text x="7" y="17" font-family="monospace" font-size="11" fill="#7cba4f">C:\&gt;</text><rect x="7" y="20" width="10" height="2" fill="#7cba4f"/></svg>',
+bin:'<svg viewBox="0 0 32 32" width="34" height="34"><path d="M8 8h16l-2 21H10z" fill="#c8d8c8" stroke="#5a7a5a" stroke-width="1.5"/><rect x="6" y="5" width="20" height="3" rx="1" fill="#7a9a7a"/><rect x="13" y="2" width="6" height="3" rx="1" fill="#7a9a7a"/><line x1="13" y1="12" x2="13" y2="25" stroke="#5a7a5a" stroke-width="1.5"/><line x1="19" y1="12" x2="19" y2="25" stroke="#5a7a5a" stroke-width="1.5"/></svg>',
+person:'<svg viewBox="0 0 32 32" width="34" height="34"><circle cx="16" cy="11" r="6" fill="#f4a259"/><path d="M4 29c0-7 5-11 12-11s12 4 12 11" fill="#f4a259"/></svg>',
+speaker:'<svg viewBox="0 0 24 24" width="16" height="16"><path d="M4 9v6h4l6 5V4L8 9H4z" fill="#fff"/><path d="M16 9c1.5 1.5 1.5 4.5 0 6" stroke="#fff" stroke-width="1.5" fill="none"/></svg>',
+tv:'<svg viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="5" width="18" height="13" rx="1.5" fill="none" stroke="#fff" stroke-width="1.6"/><line x1="9" y1="21" x2="15" y2="21" stroke="#fff" stroke-width="1.6"/></svg>'
+};
+
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+let soundOn=true, zTop=10, winSeq=0;
+const openWins=new Map();
+
+/* ---------- audio (synthesized, no samples) ---------- */
+let actx=null;
+function ac(){ if(!actx){ try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } return actx; }
+function tone(f,t0,dur,type,vol){
+  if(!soundOn) return; const c=ac(); if(!c) return;
+  const o=c.createOscillator(), g=c.createGain();
+  o.type=type||"sine"; o.frequency.value=f;
+  g.gain.setValueAtTime(0.0001,c.currentTime+t0);
+  g.gain.exponentialRampToValueAtTime(vol||0.12,c.currentTime+t0+0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+t0+dur);
+  o.connect(g).connect(c.destination); o.start(c.currentTime+t0); o.stop(c.currentTime+t0+dur+0.05);
+}
+function chime(){ [523,659,784,1047].forEach((f,i)=>tone(f,i*0.16,0.5,"sine",0.10)); tone(1319,0.64,0.7,"sine",0.07); }
+function clickSnd(){ tone(1200,0,0.05,"square",0.03); }
+function openSnd(){ tone(660,0,0.07,"triangle",0.06); tone(990,0.07,0.09,"triangle",0.05); }
+$("#sndBtn").addEventListener("click",()=>{ soundOn=!soundOn; $("#sndBtn").style.opacity=soundOn?"1":"0.4"; if(soundOn) clickSnd(); });
+$("#crtBtn").addEventListener("click",()=>{ $("#crt").classList.toggle("on"); clickSnd(); });
+
+/* ---------- clock ---------- */
+function tickClock(){
+  const d=new Date(); let h=d.getHours(), m=String(d.getMinutes()).padStart(2,"0");
+  const ap=h>=12?"PM":"AM"; h=h%12||12;
+  $("#clock").textContent=h+":"+m+" "+ap;
+}
+setInterval(tickClock,1000); tickClock();
+
+/* ---------- boot sequence ---------- */
+const fill=$("#bootFill"); let p=0;
+const bootTimer=setInterval(()=>{
+  p=Math.min(100,p+Math.random()*9+3); fill.style.width=p+"%";
+  if(p>=100){ clearInterval(bootTimer); setTimeout(()=>{ $("#boot").style.display="none"; showLogin(); },450); }
+},120);
+
+function showLogin(){ $("#login").style.display="block"; }
+$("#userCard").addEventListener("click",()=>{
+  chime();
+  $("#login").style.display="none";
+  $("#desktop").style.display="block";
+  $("#taskbar").style.display="flex";
+  renderIcons();
+});
+$("#powerBtn").addEventListener("click",()=>{ $("#login").style.display="none"; $("#offScreen").style.display="flex"; });
+$("#smLogoff").addEventListener("click",()=>{ toggleStart(false); [...openWins.keys()].forEach(closeWin); $("#desktop").style.display="none"; $("#taskbar").style.display="none"; showLogin(); });
+$("#smOff").addEventListener("click",()=>{ toggleStart(false); $("#desktop").style.display="none"; $("#taskbar").style.display="none"; $("#offScreen").style.display="flex"; });
+
+/* ---------- program data ---------- */
+const PROGRAMS={
+ about:{title:"About Me",icon:ICONS.computer,label:"About Me",w:560,h:430,body:aboutBody(),status:["My Computer","C:\\Users\\Arnab"]},
+ projects:{title:"My Projects",icon:ICONS.globe,label:"My Projects",w:640,h:480,ie:true,addr:"http://www.arnabmandal.projects/",body:projectsBody(),status:["Done","2 project(s)"]},
+ resume:{title:"Resume - Arnab Mandal",icon:ICONS.doc,label:"Resume",w:620,h:520,body:resumeBody(),status:["Resume","1 page(s)"]},
+ contact:{title:"Contact Me",icon:ICONS.mail,label:"Contact Me",w:460,h:380,body:contactBody(),status:["Ready"]},
+ notepad:{title:"Untitled - Notepad",icon:ICONS.notepad,label:"Notepad",w:480,h:360,notepad:true,status:["Ln 1, Col 1"]},
+ cmd:{title:"C:\\WINDOWS\\system32\\cmd.exe",icon:ICONS.terminal,label:"Command Prompt",w:560,h:380,cmd:true,status:["Command Prompt"]},
+ bin:{title:"Recycle Bin",icon:ICONS.bin,label:"Recycle Bin",w:420,h:300,body:'<div class="bin"><div class="g">'+ICONS.bin+'</div><div>The Recycle Bin is empty.</div><div style="color:#999;font-size:11px">No deleted files. Arnab keeps a clean desktop.</div></div>',status:["0 object(s)"]}
+};
+const DESKTOP_ICONS=["about","projects","resume","contact","notepad","cmd","bin"];
+
+function renderIcons(){
+  const host=$("#icons"); host.innerHTML="";
+  DESKTOP_ICONS.forEach(id=>{
+    const pr=PROGRAMS[id];
+    const d=document.createElement("div"); d.className="dicon"; d.dataset.id=id;
+    d.innerHTML='<div class="g">'+pr.icon+'</div><div class="l">'+(pr.label||pr.title)+'</div>';
+    d.addEventListener("dblclick",()=>openProgram(id));
+    d.addEventListener("click",()=>{ $$(".dicon").forEach(x=>x.classList.remove("sel")); d.classList.add("sel");
+      if(window.matchMedia("(pointer:coarse)").matches){ let t=d.dataset.t||( +new Date()); d.dataset.t=+new Date(); if(+new Date()-t<350) openProgram(id); } });
+    host.appendChild(d);
+  });
+}
+
+/* ---------- start menu ---------- */
+const SM_LEFT=[["projects",ICONS.globe,"My Projects"],["resume",ICONS.doc,"Resume"],["contact",ICONS.mail,"Contact Me"],["notepad",ICONS.notepad,"Notepad"],["cmd",ICONS.terminal,"Command Prompt"]];
+const SM_RIGHT=[["about","My Computer"],["bin","Recycle Bin"],["gh","GitHub - vio137"],["mail","E-mail Arnab"]];
+function buildStart(){
+  const l=$("#smLeft"); l.innerHTML="";
+  SM_LEFT.forEach(([id,g,n])=>{ const d=document.createElement("div"); d.className="smi"; d.innerHTML='<span class="g">'+g+'</span>'+n;
+    d.addEventListener("click",()=>{ toggleStart(false); openProgram(id); }); l.appendChild(d); });
+  const r=$("#smRight"); r.innerHTML="";
+  SM_RIGHT.forEach(([id,n])=>{ const d=document.createElement("div"); d.className="smi"; d.textContent=n;
+    d.addEventListener("click",()=>{ toggleStart(false);
+      if(id==="gh") window.open("https://github.com/vio137","_blank","noopener");
+      else if(id==="mail") location.href="mailto:arnab@ik.me";
+      else openProgram(id); }); r.appendChild(d); });
+}
+buildStart();
+function toggleStart(force){
+  const m=$("#startMenu"); const show=force!==undefined?force:m.style.display!=="block";
+  m.style.display=show?"block":"none"; if(show) clickSnd();
+}
+$("#startBtn").addEventListener("click",e=>{ e.stopPropagation(); toggleStart(); });
+document.addEventListener("click",e=>{ if(!e.target.closest("#startMenu")&&!e.target.closest("#startBtn")) toggleStart(false); });
+
+/* ---------- window manager ---------- */
+function openProgram(id){
+  const pr=PROGRAMS[id]; if(!pr) return;
+  if(openWins.has(id)){ focusWin(id); const w=openWins.get(id).el; if(w.style.display==="none"){ w.style.display="flex"; } return; }
+  openSnd();
+  const w=document.createElement("div"); w.className="win"; w.dataset.id=id;
+  const mobile=window.innerWidth<640;
+  w.style.width=Math.min(pr.w,window.innerWidth-8)+"px";
+  w.style.height=Math.min(pr.h,window.innerHeight-90)+"px";
+  w.style.left=Math.max(4,(window.innerWidth-parseInt(w.style.width))/2 + (winSeq%5)*26 - 52)+"px";
+  w.style.top=Math.max(4,30+(winSeq%5)*22)+"px";
+  winSeq++;
+  let menus='<div class="menubar"><span data-m="file">File</span><span data-m="view">View</span><span data-m="help">Help</span></div>';
+  let addr=pr.ie?'<div class="addrbar">Address<div class="ab">'+ICONS.globe.replace('width="34" height="34"','width="14" height="14"')+' '+pr.addr+'</div></div>':'';
+  let body;
+  if(pr.notepad) body='<div class="winbody"><textarea class="notepad-ta" spellcheck="false">Notes to self:\n- Finish M.Tech strong\n- Ship Scamometer + UPO to the Chrome Web Store\n- Keep breaking things (ethically)\n</textarea></div>';
+  else if(pr.cmd) body='<div class="winbody"><div class="cmd"><div class="out">Microsoft Windows XP [Version 5.1.2600]\n(C) Copyright 1985-2001 Microsoft Corp.\n\nC:\\Users\\Arnab> </div><div class="in"><span class="p">C:\\Users\\Arnab&gt;&nbsp;</span><input type="text" autofocus aria-label="command input"></div></div></div>';
+  else body='<div class="winbody pad">'+pr.body+'</div>';
+  const status='<div class="statusbar">'+(pr.status||["Ready"]).map(s=>'<span class="sp">'+s+'</span>').join("")+'</div>';
+  w.innerHTML='<div class="titlebar"><span class="t-ico">'+pr.icon+'</span><span class="t-name">'+pr.title+'</span><span class="tbtns">'+
+    '<button class="tbtn min" title="Minimize">_</button><button class="tbtn max" title="Maximize">\u25A1</button><button class="tbtn close" title="Close">X</button></span></div>'+
+    (pr.cmd?"":menus)+addr+body+status+'<div class="rsz"></div>';
+  $("#desktop").appendChild(w);
+  openWins.set(id,{el:w});
+  wireWin(id,w,pr);
+  addTaskBtn(id);
+  focusWin(id);
+  if(pr.cmd) wireCmd(w);
+}
+function focusWin(id){
+  openWins.forEach((v,k)=>{ v.el.classList.add("inactive"); const tb=$("#task-"+k); if(tb) tb.classList.remove("active"); });
+  const v=openWins.get(id); if(!v) return;
+  v.el.classList.remove("inactive"); v.el.style.zIndex=++zTop;
+  const tb=$("#task-"+id); if(tb) tb.classList.add("active");
+}
+function closeWin(id){
+  const v=openWins.get(id); if(!v) return;
+  v.el.remove(); openWins.delete(id);
+  const tb=$("#task-"+id); if(tb) tb.remove();
+}
+function addTaskBtn(id){
+  const pr=PROGRAMS[id];
+  const b=document.createElement("button"); b.className="taskbtn"; b.id="task-"+id;
+  b.innerHTML='<span>'+pr.icon+'</span><span class="tt">'+pr.title+'</span>';
+  b.addEventListener("click",()=>{ const v=openWins.get(id); if(!v) return;
+    if(v.el.style.display==="none"){ v.el.style.display="flex"; focusWin(id); }
+    else if(v.el.classList.contains("inactive")) focusWin(id);
+    else v.el.style.display="none"; });
+  $("#tasks").appendChild(b);
+}
+function wireWin(id,w,pr){
+  w.addEventListener("pointerdown",()=>focusWin(id));
+  w.querySelector(".close").addEventListener("click",e=>{ e.stopPropagation(); closeWin(id); });
+  w.querySelector(".min").addEventListener("click",e=>{ e.stopPropagation(); w.style.display="none"; const tb=$("#task-"+id); if(tb) tb.classList.remove("active"); });
+  w.querySelector(".max").addEventListener("click",e=>{ e.stopPropagation();
+    if(w.dataset.max){ w.style.left=w.dataset.l; w.style.top=w.dataset.t; w.style.width=w.style.width0=w.dataset.w; w.style.height=w.dataset.h; delete w.dataset.max; }
+    else { w.dataset.l=w.style.left; w.dataset.t=w.style.top; w.dataset.w=w.style.width; w.dataset.h=w.style.height;
+      w.style.left="0px"; w.style.top="0px"; w.style.width="100%"; w.style.height="calc(100% - 0px)"; w.dataset.max="1"; } });
+  w.querySelectorAll(".menubar span").forEach(m=>m.addEventListener("click",()=>{
+    const k=m.dataset.m;
+    if(k==="file") closeWin(id);
+    else if(k==="view"){ w.querySelector(".max").click(); }
+    else alert(pr.title+"\n\nArnab XP - a browser desktop by Arnab Mandal.\nDesktop concept inspired by mitchivin.com.");
+  }));
+  // drag
+  const bar=w.querySelector(".titlebar");
+  bar.addEventListener("pointerdown",e=>{
+    if(e.target.closest(".tbtn")) return;
+    const sx=e.clientX, sy=e.clientY, ox=w.offsetLeft, oy=w.offsetTop;
+    bar.setPointerCapture(e.pointerId);
+    const mv=ev=>{ w.style.left=Math.min(Math.max(ox+ev.clientX-sx,-w.offsetWidth+80),window.innerWidth-60)+"px";
+                   w.style.top=Math.min(Math.max(oy+ev.clientY-sy,0),window.innerHeight-90)+"px"; };
+    const up=()=>{ bar.removeEventListener("pointermove",mv); bar.removeEventListener("pointerup",up); };
+    bar.addEventListener("pointermove",mv); bar.addEventListener("pointerup",up);
+  });
+  // resize
+  const rz=w.querySelector(".rsz");
+  rz.addEventListener("pointerdown",e=>{
+    e.stopPropagation();
+    const sx=e.clientX, sy=e.clientY, ow=w.offsetWidth, oh=w.offsetHeight;
+    rz.setPointerCapture(e.pointerId);
+    const mv=ev=>{ w.style.width=Math.max(280,ow+ev.clientX-sx)+"px"; w.style.height=Math.max(180,oh+ev.clientY-sy)+"px"; };
+    const up=()=>{ rz.removeEventListener("pointermove",mv); rz.removeEventListener("pointerup",up); };
+    rz.addEventListener("pointermove",mv); rz.addEventListener("pointerup",up);
+  });
+}
+
+/* ---------- cmd ---------- */
+const CMDS={
+ help:"Available commands:\n  help        show this list\n  whoami      who is Arnab\n  about       short bio\n  projects    list projects\n  skills      technical skills\n  contact     how to reach Arnab\n  github      open GitHub profile\n  date        current date and time\n  cls         clear the screen\n  exit        close this window",
+ whoami:"arnab\\mandal - M.Tech Information Security, MAKAUT (2026-2028)",
+ about:"M.Tech Information Security student at MAKAUT, Kolkata.\nBuilds browser security tooling: Scamometer and UPO.\nCoursework: ethical hacking, cryptography, machine learning, advanced data structures.",
+ projects:"1. Scamometer - AI scam & phishing detector (Chrome extension)\n   https://github.com/vio137/scamometer\n2. UPO - AI text rewriter for any web field (Chrome extension)\n   https://github.com/vio137/upo",
+ skills:"Python, JavaScript, C\nWeb security, ethical hacking labs (Kali, Nmap, Nikto)\nMachine learning fundamentals, cryptography",
+ contact:"Email: arnab@ik.me\nGitHub: https://github.com/vio137",
+};
+function wireCmd(w){
+  const term=w.querySelector(".cmd"), out=term.querySelector(".out"), inp=term.querySelector("input");
+  function print(t){ out.textContent+=t+"\n"; term.scrollTop=term.scrollHeight; }
+  term.addEventListener("click",()=>inp.focus());
+  inp.addEventListener("keydown",e=>{
+    if(e.key!=="Enter") return;
+    const raw=inp.value.trim(); inp.value="";
+    print("C:\\Users\\Arnab> "+raw);
+    const c=raw.toLowerCase();
+    if(!c) return;
+    if(c==="cls"){ out.textContent=""; return; }
+    if(c==="exit"){ closeWin("cmd"); return; }
+    if(c==="date"){ print(new Date().toString()); return; }
+    if(c==="github"){ window.open("https://github.com/vio137","_blank","noopener"); print("Opening GitHub..."); return; }
+    if(CMDS[c]){ print(CMDS[c]); return; }
+    print("'"+raw+"' is not recognized as an internal or external command,\noperable program or batch file.");
+  });
+  setTimeout(()=>inp.focus(),50);
+}
+/* ---------- app content ---------- */
+function aboutBody(){
+ return '<div class="about-grid">'
+ +'<div class="about-hero"><div class="avatar"><svg viewBox="0 0 32 32" width="34" height="34"><circle cx="16" cy="11" r="6" fill="#a34f00"/><path d="M4 29c0-7 5-11 12-11s12 4 12 11" fill="#a34f00"/></svg></div><div><h1>Arnab Mandal</h1><p>M.Tech Information Security &middot; MAKAUT, Kolkata &middot; Batch 2026-2028</p></div></div>'
+ +'<div class="fact"><b>System properties:</b> First-semester M.Tech student in Information Security at the School of Information Science and Technology, MAKAUT. Runs on curiosity, Kali Linux and too much chai.</div>'
+ +'<div class="fact"><b>Installed hardware:</b> Coursework in Ethical Hacking, Cryptography, Machine Learning, Research Methodology and Advanced Data Structures.</div>'
+ +'<div class="fact"><b>Installed software:</b> Builds browser security tools - Scamometer, an AI scam and phishing detector, and UPO, an AI text rewriter. Both headed for the Chrome Web Store.</div>'
+ +'<div class="fact"><b>Support:</b> open <i>My Projects</i> for the code, <i>Resume</i> for the formal version, or <i>Contact Me</i> to get in touch.</div>'
+ +'</div>';
+}
+function projectsBody(){
+ return '<div class="ie-head">You are browsing Arnab\u2019s project drive. Two items found.</div><div class="proj"><h2>My Projects</h2>'
+ +'<div class="pcard"><h3>Scamometer</h3>'
+ +'<p>An AI scam and phishing detector that runs in your browser as a Chrome extension. It fuses evidence from two LLMs to judge how risky a page or message is, and uses a teacher-student distillation loop so a smaller model learns from the big one. Exports a JSON report of every scan.</p>'
+ +'<span class="tag">Chrome extension</span><span class="tag">LLM</span><span class="tag">Security</span><br>'
+ +'<a href="https://github.com/vio137/scamometer" target="_blank" rel="noopener noreferrer">github.com/vio137/scamometer</a></div>'
+ +'<div class="pcard"><h3>UPO</h3>'
+ +'<p>Select text in any web field - an input, a textarea, a comment box - and UPO rewrites it with AI, right where you are working. Has a quick Flash mode and a keyboard shortcut. Built as a Chrome extension with a Gemini API provider.</p>'
+ +'<span class="tag">Chrome extension</span><span class="tag">AI writing</span><span class="tag">Productivity</span><br>'
+ +'<a href="https://github.com/vio137/upo" target="_blank" rel="noopener noreferrer">github.com/vio137/upo</a></div>'
+ +'<div class="pcard"><h3>More on GitHub</h3>'
+ +'<p>Experiments, study sites and university work live on the profile.</p>'
+ +'<a href="https://github.com/vio137" target="_blank" rel="noopener noreferrer">github.com/vio137</a></div>'
+ +'</div>';
+}
+function resumeBody(){
+ return '<div class="resume">'
+ +'<h1>Arnab Mandal</h1><div class="sub">M.Tech Information Security student &middot; Kolkata, India &middot; arnab@ik.me &middot; github.com/vio137</div>'
+ +'<h2>Education</h2>'
+ +'<p><b>M.Tech, Information Security</b> - MAKAUT (School of Information Science and Technology)<br>Batch 2026-2028, first semester<br>Coursework: Ethical Hacking, Cryptography, Machine Learning, Advanced Data Structures, Research Methodology &amp; IPR</p>'
+ +'<h2>Projects</h2><ul>'
+ +'<li><b>Scamometer</b> - Chrome extension that detects scams and phishing in the browser with a dual-LLM evidence-fusion pipeline and teacher-student model distillation.</li>'
+ +'<li><b>UPO</b> - Chrome extension that rewrites selected text in any web field with AI; Flash mode and keyboard shortcut.</li>'
+ +'</ul>'
+ +'<h2>Technical skills</h2><ul>'
+ +'<li>Languages: Python, JavaScript, C</li>'
+ +'<li>Security: Kali Linux lab work - Nmap, Nikto, DMitry; web security fundamentals</li>'
+ +'<li>Browser: Chrome extension architecture, content scripts, LLM API integration</li>'
+ +'</ul>'
+ +'<h2>Currently</h2>'
+ +'<p>Preparing Scamometer and UPO for Chrome Web Store submission and developing the Scamometer research write-up (EviDistill).</p>'
+ +'</div>';
+}
+function contactBody(){
+ return '<div class="contact">'
+ +'<h2 style="font-size:15px;color:#173a75;margin-bottom:10px">New Message</h2>'
+ +'<div class="crow"><span class="g">'+ICONS.mail+'</span><div><b>E-mail</b><br><a href="mailto:arnab@ik.me">arnab@ik.me</a></div></div>'
+ +'<div class="crow"><span class="g">'+ICONS.computer+'</span><div><b>GitHub</b><br><a href="https://github.com/vio137" target="_blank" rel="noopener noreferrer">github.com/vio137</a></div></div>'
+ +'<div class="crow"><span class="g">'+ICONS.globe+'</span><div><b>Based in</b><br>Kolkata, India</div></div>'
+ +'<p style="color:#667;font-size:11px;margin-top:8px">Fastest reply is by e-mail. For anything project-related, a GitHub issue on the repo also works.</p>'
+ +'</div>';
+}
+})();
+</script>
+</body>
+</html>
