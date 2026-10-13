@@ -354,7 +354,10 @@ textarea.xpfield{resize:none}
 <body>
 <svg class="defs" aria-hidden="true">
 <defs>
-<linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d4ec4"/><stop offset=".45" stop-color="#3f8ae4"/><stop offset=".8" stop-color="#8fc2f0"/><stop offset="1" stop-color="#c8e2f8"/></linearGradient>
+<linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a63c8"/><stop offset=".4" stop-color="#4a90e2"/><stop offset=".75" stop-color="#9ecdf2"/><stop offset="1" stop-color="#d6ecfc"/></linearGradient>
+<linearGradient id="gField" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fae2c"/><stop offset=".3" stop-color="#549016"/><stop offset=".65" stop-color="#3d740a"/><stop offset="1" stop-color="#2a5c03"/></linearGradient>
+<filter id="fGrassTex" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="turbulence" baseFrequency=".55 .045" numOctaves="2" seed="14" result="t"/><feDiffuseLighting in="t" lighting-color="#cdf09a" surfaceScale="1.35" result="l"><feDistantLight azimuth="235" elevation="42"/></feDiffuseLighting><feComposite in="l" in2="SourceGraphic" operator="in"/></filter>
+<filter id="fGrassHi" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="turbulence" baseFrequency=".32 .11" numOctaves="2" seed="29" result="t"/><feDiffuseLighting in="t" lighting-color="#e4f7b8" surfaceScale="2.2" result="l"><feDistantLight azimuth="250" elevation="50"/></feDiffuseLighting><feComposite in="l" in2="SourceGraphic" operator="in"/></filter>
 <linearGradient id="gHill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cb518"/><stop offset=".6" stop-color="#5c9408"/><stop offset="1" stop-color="#3f7004"/></linearGradient>
 <linearGradient id="gHill2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93c838"/><stop offset="1" stop-color="#5e9a10"/></linearGradient>
 <filter id="fBlur"><feGaussianBlur stdDeviation="9"/></filter>
@@ -515,20 +518,24 @@ textarea.xpfield{resize:none}
   <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" id="wallSvg">
     <rect width="1440" height="900" fill="url(#gSky)"/>
     <g filter="url(#fBlur)" opacity=".95" fill="#fff">
-      <ellipse cx="1150" cy="120" rx="150" ry="34"/><ellipse cx="1240" cy="96" rx="90" ry="26"/>
-      <ellipse cx="300" cy="90" rx="190" ry="26"/><ellipse cx="420" cy="70" rx="110" ry="18"/>
-      <ellipse cx="760" cy="170" rx="90" ry="16"/>
+      <ellipse cx="1150" cy="110" rx="170" ry="30"/><ellipse cx="1255" cy="88" rx="95" ry="22"/>
+      <ellipse cx="280" cy="86" rx="200" ry="24"/><ellipse cx="410" cy="64" rx="115" ry="16"/>
+      <ellipse cx="770" cy="160" rx="100" ry="14"/>
+      <ellipse cx="1050" cy="330" rx="120" ry="26"/><ellipse cx="1130" cy="308" rx="70" ry="18"/>
     </g>
-    <g opacity=".35" fill="#dff0ff" filter="url(#fBlur)">
-      <ellipse cx="520" cy="240" rx="220" ry="14"/><ellipse cx="980" cy="300" rx="180" ry="12"/>
+    <g opacity=".4" fill="#eaf6ff" filter="url(#fBlur)">
+      <ellipse cx="520" cy="230" rx="240" ry="12"/><ellipse cx="980" cy="290" rx="200" ry="10"/>
+      <ellipse cx="180" cy="320" rx="180" ry="9"/>
     </g>
-    <path d="M0 560 C 260 470 460 430 700 480 C 940 530 1180 470 1440 520 L1440 900 L0 900 Z" fill="url(#gHill2)"/>
-    <path d="M0 620 C 300 540 640 500 900 560 C 1120 610 1300 590 1440 620 L1440 900 L0 900 Z" fill="url(#gHill)" filter="url(#fGrass)"/>
-    <g filter="url(#fMow)" transform="translate(720,600) skewX(-14) scale(1,.82)">
-      <text class="mow-lg" x="0" y="190" text-anchor="middle" textLength="640" font-family="Arial Black,Arial" font-size="190" font-weight="900" fill="#356302" letter-spacing="6">ARNAB</text>
-      <text class="mow-sm" x="0" y="150" text-anchor="middle" textLength="356" font-family="Arial Black,Arial" font-size="104" font-weight="900" fill="#356302" letter-spacing="2">ARNAB</text>
+    <path d="M0 508 C 220 470 420 452 660 462 C 920 473 1150 452 1440 474 L1440 560 L0 560 Z" fill="#5f9416" opacity=".8"/>
+    <path d="M0 500 C 240 462 520 448 820 458 C 1060 466 1260 458 1440 468 L1440 900 L0 900 Z" fill="url(#gField)"/>
+    <path d="M0 500 C 240 462 520 448 820 458 C 1060 466 1260 458 1440 468 L1440 900 L0 900 Z" fill="#777" filter="url(#fGrassTex)" opacity=".42" style="mix-blend-mode:multiply"/>
+    <path d="M0 500 C 240 462 520 448 820 458 C 1060 466 1260 458 1440 468 L1440 900 L0 900 Z" fill="#777" filter="url(#fGrassHi)" opacity=".22" style="mix-blend-mode:screen"/>
+    <g filter="url(#fMow)" transform="translate(712,545) skewX(-17) scale(1,.66)">
+      <text class="mow-lg" x="0" y="230" text-anchor="middle" textLength="1160" font-family="Arial Black,Arial" font-size="240" font-weight="900" fill="#2c5a0c" letter-spacing="10">ARNAB</text>
+      <text class="mow-sm" x="52" y="190" text-anchor="middle" textLength="340" font-family="Arial Black,Arial" font-size="100" font-weight="900" fill="#2c5a0c" letter-spacing="2">ARNAB</text>
     </g>
-    <g opacity=".25" filter="url(#fBlur)"><ellipse cx="1120" cy="820" rx="300" ry="40" fill="#2a4d02"/></g>
+    <g opacity=".22" filter="url(#fBlur)"><ellipse cx="1150" cy="830" rx="320" ry="44" fill="#1e3d02"/></g>
   </svg>
   </div>
   <div id="icons"></div>
@@ -1363,7 +1370,7 @@ PROGRAMS.scamlab={t:'Scamometer Lab',ic:'i-sec',w:620,h:520,body:()=>scamlabBody
 PROGRAMS.realm={t:'Realm Login (unbranded tribute)',ic:'i-realm',w:640,h:480,body:()=>realmBody(),menu:'basic',status:'Login-screen flow recreation - original art, no game assets',wire:wireRealm};
 
 /* ---------------- DESKTOP ICONS ---------------- */
-const DESKTOP_ICONS=['about','resume','projects','contact','mines','paint','notepad','cmd','bin'];
+const DESKTOP_ICONS=['about','resume','projects','contact'];
 const ICON_LBL={about:'About Me',resume:'My Resume',projects:'My Projects',contact:'Contact Me',mines:'Minesweeper',paint:'Paint',notepad:'Notepad',cmd:'Command Prompt',bin:'Recycle Bin',wmp:'Media Player',ipod:'MiPod Classic',messenger:'Live Messenger',imgview:'Image Viewer',pinball:'Pinball',gameboy:'Mi Boy Color',display:'Display Properties'};
 ICONS.scamlab='i-sec'; ICONS.realm='i-realm';
 ICON_LBL.scamlab='Scamometer Lab'; ICON_LBL.realm='Realm Login';
