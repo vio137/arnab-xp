@@ -202,6 +202,8 @@ button{font-family:var(--font)}
 #shutdown{background:#000}
 #shutdown .txt{color:#c86400;font-size:20px;font-family:'Segoe UI',Arial}
 #shutdown .sub{color:#888;font-size:12px;margin-top:16px;cursor:pointer;text-decoration:underline}
+.mow-sm{display:none}
+@media (max-width:640px){.mow-lg{display:none}.mow-sm{display:inline}}
 /* misc app styles */
 .pad{padding:12px;user-select:text;-webkit-user-select:text}
 .pad h2{font-size:15px;margin-bottom:8px;color:#00309c}
@@ -295,6 +297,48 @@ textarea.xpfield{resize:none}
 .dprops label{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;cursor:pointer}
 .dprops .sw{width:34px;height:24px;border:1px solid #999;border-radius:3px;flex:none}
 .dprops .row{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+
+/* scam lab */
+.scamlab{height:100%;display:flex;flex-direction:column;background:#f5f8ff;padding:12px;gap:8px;user-select:text;-webkit-user-select:text}
+.scamlab .note{font-size:11px;color:#5a6a8a;background:#e8f0fc;border:1px solid #b3c6ea;border-radius:3px;padding:6px 8px}
+.scamlab textarea{flex:none;height:110px;resize:none}
+.scamlab .anrow{display:flex;gap:8px;flex:1;min-height:0}
+.scamlab .an{flex:1;border:1px solid #b3c6ea;border-radius:3px;background:#fff;display:flex;flex-direction:column;overflow:hidden}
+.scamlab .an h4{background:linear-gradient(180deg,#3c7be8,#2255cc);color:#fff;font-size:11px;padding:4px 8px}
+.scamlab .an .body{padding:8px;font-size:11px;line-height:1.5;overflow:auto;flex:1}
+.scamlab .verdict{font-size:13px;font-weight:700;padding:6px 10px;border-radius:3px;text-align:center}
+.scamlab .verdict.safe{background:#dff5d8;color:#2a6a1e;border:1px solid #8ac878}
+.scamlab .verdict.sus{background:#fdf3d0;color:#8a6a12;border:1px solid #e0c060}
+.scamlab .verdict.scam{background:#fbdcd4;color:#a02812;border:1px solid #e08068}
+.scamlab .verdict.split{background:#e8e0f8;color:#5a3a9a;border:1px solid #b090e0}
+/* realm */
+.realm{height:100%;position:relative;overflow:hidden;background:linear-gradient(180deg,#050a1e 0%,#0d1b3e 40%,#1a2a52 70%,#0a1430 100%);color:#dfe8ff;font-family:'Segoe UI',Arial}
+.realm .stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 20% 18%,#fff,transparent),radial-gradient(1px 1px at 65% 8%,#cfe0ff,transparent),radial-gradient(1.5px 1.5px at 82% 26%,#fff,transparent),radial-gradient(1px 1px at 38% 32%,#cfe0ff,transparent),radial-gradient(2px 2px at 50% 12%,#fff,transparent),radial-gradient(1px 1px at 90% 45%,#cfe0ff,transparent)}
+.realm .moon{position:absolute;top:34px;right:52px;width:74px;height:74px;border-radius:50%;background:radial-gradient(circle at 38% 35%,#fdfdf0,#d8d8c0 65%,#b0b098);box-shadow:0 0 34px 10px rgba(240,240,220,.22)}
+.realm .inner{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+.realm .rword{font-size:34px;font-weight:700;letter-spacing:8px;color:#e8d9a0;font-family:Georgia,serif;text-shadow:0 0 18px rgba(232,217,160,.45),0 2px 4px #000}
+.realm .rsub{font-size:11px;color:#8fa4d8;letter-spacing:2px;margin-top:-8px}
+.realm .panel{background:rgba(8,14,36,.72);border:1px solid #3a4a80;border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;width:250px;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+.realm label{font-size:10px;color:#8fa4d8;letter-spacing:1px}
+.realm input{background:#0a1230;border:1px solid #3a4a80;color:#e8eeff;padding:6px 8px;border-radius:3px;font-family:Georgia,serif;font-size:13px;outline:none}
+.realm input:focus{border-color:#e8d9a0}
+.realm .enter{margin-top:4px;padding:7px;background:linear-gradient(180deg,#6a5a2a,#4a3e18);border:1px solid #e8d9a0;color:#f5ecc8;font-family:Georgia,serif;font-size:14px;letter-spacing:2px;cursor:pointer;border-radius:3px}
+.realm .enter:hover:not(:disabled){filter:brightness(1.25)}
+.realm .enter:disabled{opacity:.45;cursor:default}
+.realm .rlink{font-size:11px;color:#9fb4e8;text-align:center;cursor:pointer;text-decoration:underline}
+.realm .rver{position:absolute;bottom:8px;left:10px;font-size:10px;color:#5a6a9a}
+.realm .rnotice{font-size:11px;color:#f0d890;text-align:center;max-width:300px}
+.realm .chars{display:flex;gap:14px}
+.realm .char{width:130px;background:rgba(8,14,36,.72);border:1px solid #3a4a80;border-radius:6px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.realm .char:hover,.realm .char.sel{border-color:#e8d9a0;box-shadow:0 0 14px rgba(232,217,160,.3)}
+.realm .char svg{width:52px;height:52px}
+.realm .char .cn{font-family:Georgia,serif;font-size:13px;color:#f0e6c0}
+.realm .char .cl{font-size:10px;color:#8fa4d8}
+.realm .loadbar{width:280px;height:14px;border:1px solid #3a4a80;border-radius:7px;overflow:hidden;background:#0a1230}
+.realm .loadbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4a6ac8,#e8d9a0);transition:width .3s}
+.realm .world-msg{max-width:420px;text-align:center;font-size:13px;line-height:1.6;color:#cfe0ff}
+.realm .logout{padding:5px 18px;background:linear-gradient(180deg,#5a2a2a,#3e1818);border:1px solid #e0a0a0;color:#f5c8c8;font-family:Georgia,serif;font-size:12px;cursor:pointer;border-radius:3px}
+
 /* login/logoff overlays reuse */
 @media (max-width:640px){
   #startmenu{width:calc(100vw - 8px);left:4px}
@@ -426,6 +470,7 @@ textarea.xpfield{resize:none}
 <symbol id="i-gh" viewBox="0 0 20 20"><path fill="#1b1f23" d="M10 1a9 9 0 0 0-2.8 17.6c.4.1.6-.2.6-.4v-1.5c-2.5.5-3-1.1-3-1.1-.4-1-1-1.3-1-1.3-.8-.6.1-.6.1-.6.9.1 1.4.9 1.4.9.8 1.4 2.1 1 2.6.8.1-.6.3-1 .6-1.2-2-.2-4.1-1-4.1-4.4 0-1 .3-1.8.9-2.4-.1-.2-.4-1.1.1-2.4 0 0 .8-.2 2.5.9a8.6 8.6 0 0 1 4.5 0c1.7-1.1 2.5-.9 2.5-.9.5 1.3.2 2.2.1 2.4.6.6.9 1.4.9 2.4 0 3.4-2.1 4.2-4.1 4.4.3.3.6.8.6 1.7v2.5c0 .2.2.5.6.4A9 9 0 0 0 10 1z"/></symbol>
 <symbol id="i-sec" viewBox="0 0 48 48"><path d="M24 4l16 6v12c0 10-7 18-16 22C15 40 8 32 8 22V10z" fill="#4a74cc" stroke="#16305a" stroke-width="2"/><path d="M16 24l6 6 12-13" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-gear" viewBox="0 0 48 48"><circle cx="24" cy="24" r="8" fill="#c8ccd4" stroke="#5a5e68" stroke-width="2.5"/><path d="M24 6v8M24 34v8M6 24h8M34 24h8M11 11l6 6M31 31l6 6M37 11l-6 6M17 31l-6 6" stroke="#5a5e68" stroke-width="4" stroke-linecap="round"/></symbol>
+<symbol id="i-realm" viewBox="0 0 48 48"><path d="M24 3L10 14v16c0 8 6 13 14 15 8-2 14-7 14-15V14z" fill="#1a2a52" stroke="#e8d9a0" stroke-width="2"/><path d="M24 10v22M17 18l7-5 7 5" stroke="#e8d9a0" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="36" r="2.6" fill="#e8d9a0"/></symbol>
 <symbol id="i-min" viewBox="0 0 11 11"><rect x="1" y="7.5" width="9" height="2.6" fill="#fff"/></symbol>
 <symbol id="i-max" viewBox="0 0 11 11"><rect x="1.4" y="1.4" width="8.2" height="8.2" fill="none" stroke="#fff" stroke-width="1.8"/></symbol>
 <symbol id="i-x" viewBox="0 0 11 11"><path d="M1.5 1.5l8 8M9.5 1.5l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
@@ -479,8 +524,9 @@ textarea.xpfield{resize:none}
     </g>
     <path d="M0 560 C 260 470 460 430 700 480 C 940 530 1180 470 1440 520 L1440 900 L0 900 Z" fill="url(#gHill2)"/>
     <path d="M0 620 C 300 540 640 500 900 560 C 1120 610 1300 590 1440 620 L1440 900 L0 900 Z" fill="url(#gHill)" filter="url(#fGrass)"/>
-    <g filter="url(#fMow)" transform="translate(150,600) skewX(-14) scale(1,.82)">
-      <text x="0" y="190" font-family="Arial Black,Arial" font-size="190" font-weight="900" fill="#356302" letter-spacing="6">ARNAB</text>
+    <g filter="url(#fMow)" transform="translate(720,600) skewX(-14) scale(1,.82)">
+      <text class="mow-lg" x="0" y="190" text-anchor="middle" textLength="640" font-family="Arial Black,Arial" font-size="190" font-weight="900" fill="#356302" letter-spacing="6">ARNAB</text>
+      <text class="mow-sm" x="0" y="150" text-anchor="middle" textLength="356" font-family="Arial Black,Arial" font-size="104" font-weight="900" fill="#356302" letter-spacing="2">ARNAB</text>
     </g>
     <g opacity=".25" filter="url(#fBlur)"><ellipse cx="1120" cy="820" rx="300" ry="40" fill="#2a4d02"/></g>
   </svg>
@@ -627,8 +673,8 @@ function aboutBody(){
     <span class="pl"><svg viewBox="0 0 20 20"><use href="#i-doc2"/></svg>Advanced Data Structures</span>
   </div></div></div>
   <div class="main"><h1>About Me</h1>
-  <div class="row"><svg class="ric" viewBox="0 0 64 64"><use href="#i-avatar"/></svg><p><b>Arnab Mandal</b> - first-semester M.Tech student in Information Security at the School of Information Science and Technology, MAKAUT, Kolkata (batch 2026-2028). Runs on curiosity, Kali Linux and too much chai.</p></div>
-  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-sec"/></svg><p>Security is the home turf: scam and phishing detection, browser extension security, and the craft of breaking things carefully before someone else does. Off the clock, this machine dual-boots into machine learning coursework and side projects that ship.</p></div>
+  <div class="row"><svg class="ric" viewBox="0 0 64 64"><use href="#i-avatar"/></svg><p><b>Arnab Mandal</b> - first-semester M.Tech student in Information Security at the School of Information Science and Technology, MAKAUT, Kolkata (batch 2026-2028).</p></div>
+  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-sec"/></svg><p>Security is the focus: scam and phishing detection and browser extension security, backed by coursework in Ethical Hacking, Cryptography, Machine Learning, Research Methodology and Advanced Data Structures.</p></div>
   <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-pc"/></svg><p>This desktop is the portfolio. Every icon opens a real app - <b>My Projects</b> has the code, <b>Resume</b> the formal version, <b>Contact Me</b> gets a message through, and the games in the Start menu all play.</p></div>
   </div></div>`;
 }
@@ -671,7 +717,7 @@ function botReply(q){
   const has=(...ws)=>ws.some(w=>q.includes(w));
   if(has('hello','hi ','hey','namaste')||q==='hi')return 'Hey! I am Arnab Bot, the desk assistant on Arnab XP. Ask me about Arnab, the M.Tech, the projects, or how to reach him.';
   if(has('mtech','m.tech','makaut','college','study','studies','university','semester'))return 'Arnab is a first-semester M.Tech Information Security student at the School of Information Science and Technology, MAKAUT, Kolkata - batch 2026-2028. Coursework includes Ethical Hacking, Cryptography and Machine Learning.';
-  if(has('scamometer','scam','phish'))return 'Scamometer is his Chrome extension that checks pages and messages for scam and phishing signals with two LLMs cross-checking each other. Source: github.com/vio137/scamometer';
+  if(has('scamometer','scam','phish'))return 'Scamometer is his Chrome extension that checks pages and messages for scam and phishing signals with two LLMs cross-checking each other. Source: github.com/vio137/scamometer - and there is a working local demo of the idea in Scamometer Lab (Start > All Programs).';
   if(has('upo'))return 'UPO is his AI text-rewriter browser extension - select text, pick a tone, get a cleaner version. Source: github.com/vio137/upo';
   if(has('project','work','build'))return 'Main builds right now: Scamometer (scam/phishing detector) and UPO (AI text rewriter), both browser extensions with source on github.com/vio137. This desktop counts too.';
   if(has('contact','email','mail','reach','phone'))return 'Email arnab@ik.me - that is the fastest route. GitHub: github.com/vio137. He is based in Kolkata.';
@@ -684,7 +730,7 @@ function botReply(q){
   return 'Good question for a human - Arnab answers those at arnab@ik.me. I can talk about his studies, projects, GitHub or this desktop.';
 }
 /* cmd */
-const CMD_HELP='Available commands:\n  help        this list\n  whoami      current user\n  about       about Arnab\n  projects    project list\n  skills      skills summary\n  contact     contact info\n  github      GitHub profile\n  music       now playing on the media player\n  open <app>  open a program (about, projects, resume, contact, notepad, mines, paint, cmd, wmp, ipod, messenger, imgview, pinball, gameboy, display, bin)\n  date        current date and time\n  cls         clear screen\n  exit        close this window';
+const CMD_HELP='Available commands:\n  help        this list\n  whoami      current user\n  about       about Arnab\n  projects    project list\n  skills      skills summary\n  contact     contact info\n  github      GitHub profile\n  music       now playing on the media player\n  open <app>  open a program (about, projects, resume, contact, notepad, mines, paint, cmd, wmp, ipod, messenger, imgview, scamlab, pinball, gameboy, realm, display, bin)\n  date        current date and time\n  cls         clear screen\n  exit        close this window';
 /* ---------------- PROGRAMS ---------------- */
 const PROGRAMS={
   about:{t:'About Me',ic:'i-pc',w:760,h:520,body:()=>aboutBody(),menu:'explore',status:'Ready'},
@@ -715,7 +761,7 @@ function focusWin(id){
 }
 function addTaskBtn(id){
   const b=document.createElement('button'); b.className='taskbtn active'; b.dataset.id=id;
-  b.innerHTML=`<svg viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span>${PROGRAMS[id].t.split(' - ')[0].split(' -')[0]}</span>`;
+  b.innerHTML=`<svg viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span>${ICON_LBL[id]||PROGRAMS[id].t}</span>`;
   b.title=PROGRAMS[id].t;
   b.onclick=()=>{ const w=wins[id]; if(!w)return;
     if(w.el.style.display==='none'){ w.el.style.display='flex'; focusWin(id); }
@@ -1195,9 +1241,131 @@ function wireDisplay(w){
   };
   w.el.querySelector('#dCancel').onclick=()=>closeWin(w.id);
 }
+
+/* ---------------- SCAMOMETER LAB ---------------- */
+function scamlabBody(){
+  return `<div class="scamlab">
+    <div class="note"><b>Scamometer Lab</b> - a local demo of the detection ideas behind the real Scamometer extension (two independent analyzers cross-checking, like its dual-LLM design). Rule-based, runs in this page, nothing is sent anywhere.</div>
+    <textarea class="xpfield" placeholder="Paste a suspicious message, email or URL here..." ></textarea>
+    <div class="anrow">
+      <div class="an"><h4>Analyzer A - content signals</h4><div class="body"><i>Paste something and press Analyze.</i></div></div>
+      <div class="an"><h4>Analyzer B - structure signals</h4><div class="body"><i>Waiting for input.</i></div></div>
+    </div>
+    <div class="verdict safe">No analysis yet</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end"><button class="xpbtn" data-a="sample">Try a scam sample</button><button class="xpbtn" data-a="clear">Reset</button><button class="xpbtn primary" data-a="go">Analyze</button></div>
+  </div>`;
+}
+function wireScamlab(w){
+  const ta=w.el.querySelector('textarea'), bodies=w.el.querySelectorAll('.an .body'), verdict=w.el.querySelector('.verdict');
+  const SIG_A=[['urgency',/urgent|immediately|act now|right away|limited time|expires|final notice/i,18],['threat',/suspend|blocked|locked|closed|terminat|unusual activity|verify your/i,16],['credential ask',/password|otp|one.time code|cvv|card number|pin code|login details|credentials/i,22],['money ask',/bank transfer|wire|gift card|itunes|voucher|payment|fee|refund|tax/i,16],['reward bait',/won|winner|lottery|prize|congratulations|jackpot|free iphone|claim your/i,18],['link bait',/click here|click the link|bit\.ly|tinyurl|short link|http:\/\//i,12]];
+  const SIG_B=[
+    ['heavy caps',t=>{const l=t.replace(/[^a-zA-Z]/g,'');return l.length>12&&(l.replace(/[^A-Z]/g,'').length/l.length)>0.35;},16],
+    ['exclamation storm',t=>(t.match(/!/g)||[]).length>=3,12],
+    ['shortened/odd links',t=>/bit\.ly|tinyurl|t\.co\/[a-z0-9]|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/i.test(t),16],
+    ['generic greeting',t=>/dear (customer|user|sir|madam|friend|account holder)/i.test(t),14],
+    ['reply-to mismatch',t=>/reply.to|different address|not from.*@/i.test(t),10],
+    ['phone/itn number drop',t=>/\+?\d[\d\s\-()]{8,}\d/.test(t)&&/call|whatsapp|text/i.test(t),12]];
+  function band(v){ return v<30?['safe','Looks safe']:v<60?['sus','Suspicious - check carefully']:['scam','Likely scam']; }
+  function analyze(){
+    const t=ta.value;
+    if(!t.trim()){ verdict.className='verdict sus'; verdict.textContent='Paste a message or URL first.'; return; }
+    let sa=0, hitsA=[];
+    SIG_A.forEach(([n,re,pts])=>{ if(re.test(t)){sa+=pts;hitsA.push(n);} });
+    let sb=0, hitsB=[];
+    SIG_B.forEach(([n,fn,pts])=>{ if(fn(t)){sb+=pts;hitsB.push(n);} });
+    sa=Math.min(100,sa); sb=Math.min(100,sb);
+    const ba=band(sa), bb=band(sb);
+    bodies[0].innerHTML='<b>Score '+sa+'/100</b><br>'+(hitsA.length?('Flagged: '+hitsA.join(', ')):'No content red flags.');
+    bodies[1].innerHTML='<b>Score '+sb+'/100</b><br>'+(hitsB.length?('Flagged: '+hitsB.join(', ')):'No structural red flags.');
+    if(ba[0]===bb[0]){ verdict.className='verdict '+ba[0]; verdict.textContent='Both analyzers agree: '+ba[1]; }
+    else { verdict.className='verdict split'; verdict.textContent='Analyzers disagree (A: '+ba[1]+' / B: '+bb[1]+') - the real extension escalates cases like this. Caution advised.'; }
+    dingSnd();
+  }
+  w.el.addEventListener('click',e=>{
+    const b=e.target.closest('[data-a]'); if(!b)return;
+    if(b.dataset.a==='go')analyze();
+    else if(b.dataset.a==='clear'){ ta.value=''; bodies.forEach(x=>x.innerHTML='<i>Waiting for input.</i>'); verdict.className='verdict safe'; verdict.textContent='No analysis yet'; }
+    else if(b.dataset.a==='sample'){ ta.value='URGENT!! Your BANK ACCOUNT has been SUSPENDED due to unusual activity. Verify your password and OTP immediately at http://bit.ly/secure-verify-now or call +91 98765 00000. Dear Customer, act now or your account will be closed!!!'; analyze(); }
+  });
+}
+/* ---------------- REALM LOGIN (unbranded tribute) ---------------- */
+function realmBody(){
+  return `<div class="realm"><div class="stars"></div><div class="moon"></div>
+    <div class="inner" id="realmInner">
+      <div class="rword">REALM</div><div class="rsub">AN UNBRANDED LOGIN-SCREEN TRIBUTE</div>
+      <div class="panel">
+        <label>ACCOUNT NAME</label><input class="ruser" maxlength="24" autocomplete="off">
+        <label>PASSWORD</label><input class="rpass" type="password" maxlength="24">
+        <button class="enter" disabled>ENTER REALM</button>
+      </div>
+      <div class="rlink" data-r="create">Create account</div>
+      <div class="rnotice" style="display:none"></div>
+    </div>
+    <div class="rver">Version 1.0.0 (tribute) - no game inside</div>
+  </div>`;
+}
+function wireRealm(w){
+  const inner=w.el.querySelector('#realmInner');
+  function loginView(){
+    inner.innerHTML=`<div class="rword">REALM</div><div class="rsub">AN UNBRANDED LOGIN-SCREEN TRIBUTE</div>
+      <div class="panel">
+        <label>ACCOUNT NAME</label><input class="ruser" maxlength="24" autocomplete="off">
+        <label>PASSWORD</label><input class="rpass" type="password" maxlength="24">
+        <button class="enter" disabled>ENTER REALM</button>
+      </div>
+      <div class="rlink" data-r="create">Create account</div>
+      <div class="rnotice" style="display:none"></div>`;
+    wireLogin();
+  }
+  function wireLogin(){
+    const u=inner.querySelector('.ruser'), p=inner.querySelector('.rpass'), btn=inner.querySelector('.enter');
+    function chk(){ btn.disabled=!(u.value.trim()&&p.value.trim()); }
+    u.addEventListener('input',chk); p.addEventListener('input',chk);
+    p.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!btn.disabled)go(); });
+    btn.onclick=go;
+    function go(){ clickSnd(); charSelect(u.value.trim()); }
+  }
+  function charSelect(name){
+    inner.innerHTML=`<div class="rword">REALM</div><div class="rsub">WELCOME, ${name.toUpperCase()} - CHOOSE A CHARACTER</div>
+      <div class="chars">
+        ${[['NightMage','Level 60 - Security Mage','i-realm'],['KolkataKnight','Level 58 - Defender','i-sec'],['ByteRogue','Level 57 - Code Rogue','i-cmd']].map((c,i)=>`
+        <div class="char${i===0?' sel':''}" data-i="${i}"><svg viewBox="0 0 48 48"><use href="#${c[2]}"/></svg><span class="cn">${c[0]}</span><span class="cl">${c[1]}</span></div>`).join('')}
+      </div>
+      <button class="enter" style="width:220px">ENTER WORLD</button>
+      <div class="rlink" data-r="back">Back to login</div>`;
+    inner.querySelectorAll('.char').forEach(c=>c.onclick=()=>{ inner.querySelectorAll('.char').forEach(x=>x.classList.remove('sel')); c.classList.add('sel'); clickSnd(); });
+    inner.querySelector('.enter').onclick=()=>loading();
+    inner.querySelector('[data-r=back]').onclick=()=>{ clickSnd(); loginView(); };
+  }
+  function loading(){
+    inner.innerHTML=`<div class="rword">REALM</div><div class="rsub">ENTERING WORLD...</div><div class="loadbar"><i></i></div>`;
+    const bar=inner.querySelector('.loadbar i'); let p=0;
+    const t=setInterval(()=>{ p+=20; bar.style.width=Math.min(100,p)+'%'; if(p>=100){ clearInterval(t); world(); } },280);
+    w.cleanup=()=>clearInterval(t);
+  }
+  function world(){
+    inner.innerHTML=`<div class="rword">REALM</div>
+      <div class="world-msg">You stand at the gates. Beyond this point the tribute ends - this is a recreation of a fantasy MMO login flow, drawn entirely with Arnab XP's own art. The real adventure is one icon over: My Projects.</div>
+      <button class="logout">LOG OUT</button>`;
+    inner.querySelector('.logout').onclick=()=>{ clickSnd(); loginView(); };
+    openSnd();
+  }
+  w.el.addEventListener('click',e=>{
+    const l=e.target.closest('[data-r="create"]'); if(!l)return;
+    const n=inner.querySelector('.rnotice');
+    n.style.display='block'; n.textContent='Account creation is not part of this tribute - it recreates the login flow only. Try any name and password.'; dingSnd();
+  });
+  wireLogin();
+}
+/* registrations */
+PROGRAMS.scamlab={t:'Scamometer Lab',ic:'i-sec',w:620,h:520,body:()=>scamlabBody(),menu:'basic',status:'Local demo of dual-analyzer detection - not the shipped extension',wire:wireScamlab};
+PROGRAMS.realm={t:'Realm Login (unbranded tribute)',ic:'i-realm',w:640,h:480,body:()=>realmBody(),menu:'basic',status:'Login-screen flow recreation - original art, no game assets',wire:wireRealm};
+
 /* ---------------- DESKTOP ICONS ---------------- */
 const DESKTOP_ICONS=['about','resume','projects','contact','mines','paint','notepad','cmd','bin'];
 const ICON_LBL={about:'About Me',resume:'My Resume',projects:'My Projects',contact:'Contact Me',mines:'Minesweeper',paint:'Paint',notepad:'Notepad',cmd:'Command Prompt',bin:'Recycle Bin',wmp:'Media Player',ipod:'MiPod Classic',messenger:'Live Messenger',imgview:'Image Viewer',pinball:'Pinball',gameboy:'Mi Boy Color',display:'Display Properties'};
+ICONS.scamlab='i-sec'; ICONS.realm='i-realm';
+ICON_LBL.scamlab='Scamometer Lab'; ICON_LBL.realm='Realm Login';
 function renderIcons(){
   const c=$('#icons'); c.innerHTML='';
   const colH=mob()?84:96, cols=mob()?Math.max(1,Math.floor(innerWidth/84)):1;
@@ -1224,8 +1392,8 @@ $('#desktop').addEventListener('click',e=>{ if(e.target.closest('#icons')&&!e.ta
 const SM_PINNED=[['projects','My Projects','Scamometer, UPO and this site'],['contact','Contact Me','Send me a message']];
 const SM_LEFT=[['about','About Me',''],['resume','My Resume',''],['messenger','Live Messenger',''],['ipod','MiPod Classic',''],['notepad','Notepad',''],['cmd','Command Prompt','']];
 const SM_RIGHT=[['gh','GitHub','ext'],['mail','Email (arnab@ik.me)','ext']];
-const SM_RIGHT2=[['wmp','Media Player'],['imgview','Image Viewer'],['pinball','Pinball'],['gameboy','Mi Boy Color'],['display','Display Properties'],['bin','Recycle Bin']];
-const ALL_PROGRAMS=['about','projects','resume','contact','notepad','cmd','mines','paint','wmp','ipod','messenger','imgview','pinball','gameboy','display','bin'];
+const SM_RIGHT2=[['wmp','Media Player'],['imgview','Image Viewer'],['scamlab','Scamometer Lab'],['pinball','Pinball'],['gameboy','Mi Boy Color'],['realm','Realm Login'],['display','Display Properties'],['bin','Recycle Bin']];
+const ALL_PROGRAMS=['about','projects','resume','contact','notepad','cmd','mines','paint','wmp','ipod','messenger','imgview','scamlab','pinball','gameboy','realm','display','bin'];
 function buildStart(){
   const L=$('#smLeft'), R=$('#smRight'); L.innerHTML=''; R.innerHTML='';
   SM_PINNED.forEach(([id,t,s])=>L.innerHTML+=`<div class="smi" data-id="${id}"><svg viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span class="tx"><b>${t}</b><span>${s}</span></span></div>`);
