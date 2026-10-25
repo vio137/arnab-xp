@@ -34,11 +34,11 @@ button{font-family:var(--font)}
 /* ---------- BOOT ---------- */
 #boot{position:fixed;inset:0;background:#000;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center}
 #boot .logo-area{text-align:center}
-#boot .flag{width:120px;height:96px;margin-bottom:10px}
-#boot .word{font-size:44px;font-weight:700;color:#fff;letter-spacing:-2px;font-family:'Segoe UI',Arial}
-#boot .word sup{font-size:22px;color:#e8622d;font-weight:700;letter-spacing:0;margin-left:4px}
-#boot .tag{font-size:15px;font-style:italic;color:#fff;font-family:'Segoe UI',Arial;margin-top:2px}
-#boot .prog{width:158px;height:15px;border:1px solid #8a8a8a;border-radius:3px;margin:34px auto 0;position:relative;overflow:hidden;padding:2px}
+#boot .flag{width:144px;height:115px;margin-bottom:12px}
+#boot .word{font-size:56px;font-weight:700;color:#c9c9c9;letter-spacing:-2px;font-family:'Segoe UI',Arial}
+#boot .word sup{font-size:28px;color:#e8622d;font-weight:700;letter-spacing:0;margin-left:5px}
+#boot .tag{font-size:17px;font-style:italic;color:#c9c9c9;font-family:'Segoe UI',Arial;margin-top:4px}
+#boot .prog{width:190px;height:15px;border:1px solid #8a8a8a;border-radius:3px;margin:34px auto 0;position:relative;overflow:hidden;padding:2px}
 #boot .blocks{position:absolute;top:2px;left:2px;display:flex;gap:2px;animation:crawl 2s linear infinite}
 #boot .blocks i{width:9px;height:9px;background:#3d6fe5;border-radius:1px}
 @keyframes crawl{0%{transform:translateX(-40px)}100%{transform:translateX(160px)}}
@@ -47,20 +47,21 @@ button{font-family:var(--font)}
 /* ---------- LOGIN ---------- */
 #login{position:fixed;inset:0;z-index:9000;display:none;background:radial-gradient(ellipse at 40% 35%,#6d8ce8 0%,#4f6ecd 45%,#3352b8 100%)}
 #login .band{position:absolute;left:0;right:0;height:9%;background:#00309c}
-#login .band.top{top:0;border-bottom:2px solid #e79b38}
+#login .band.top{top:0;border-bottom:1px solid #d9e2f5}
 #login .band.bottom{bottom:0;border-top:2px solid #e79b38}
-#login .center{position:absolute;top:12%;bottom:12%;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:60px}
+#login .center{position:absolute;top:12%;bottom:12%;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:48px}
+#login .divider{width:1px;height:min(340px,60%);background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.6),rgba(255,255,255,0))}
 #login .brand{text-align:left}
-#login .brand .flag{width:96px;height:77px}
-#login .brand .word{font-size:38px;font-weight:700;color:#fff;letter-spacing:-1.5px;font-family:'Segoe UI',Arial}
-#login .brand .word sup{font-size:19px;color:#e8622d;margin-left:3px}
-#login .brand .tag{color:#cdd9f7;font-style:italic;font-size:13px;margin-top:2px;font-family:'Segoe UI',Arial}
-#login .hint{color:#fff;font-size:14px;margin-top:44px;font-family:'Segoe UI',Arial}
+#login .brand .flag{width:116px;height:93px}
+#login .brand .word{font-size:48px;font-weight:700;color:#d3d3d3;letter-spacing:-1.5px;font-family:'Segoe UI',Arial}
+#login .brand .word sup{font-size:25px;color:#e8622d;margin-left:4px}
+#login .brand .tag{color:#cdd9f7;font-style:italic;font-size:15px;margin-top:3px;font-family:'Segoe UI',Arial}
+#login .hint{color:#fff;font-size:15px;margin-top:52px;font-family:'Segoe UI',Arial}
 #login .user{display:flex;align-items:center;gap:14px;padding:12px 26px 12px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent}
 #login .user:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.12)}
 #login .user .avatar{width:64px;height:64px;border-radius:8px;border:2px solid #fff;background:#b8ccf0;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 #login .user .name{color:#fff;font-size:21px;font-family:'Segoe UI',Arial}
-#login .user .cap{color:#16277c;font-size:12px;font-weight:700;margin-top:3px}
+#login .user .cap{color:#cdd9f7;font-size:12px;font-weight:700;margin-top:3px}
 #login .footbtn{position:absolute;bottom:1.6%;left:36px;display:flex;align-items:center;gap:8px;color:#fff;font-size:13px;cursor:pointer;font-family:'Segoe UI',Arial;background:none;border:none}
 #login .footbtn:hover{text-decoration:underline}
 #login .footnote{position:absolute;bottom:1.6%;right:36px;color:#cdd9f7;font-size:11px;text-align:right;line-height:1.5}
@@ -350,6 +351,7 @@ textarea.xpfield{resize:none}
   .explorer .side{width:150px}
   .dicon{width:76px}
   #login .center{gap:22px;flex-direction:column}
+  #login .divider{display:none}
   #login .brand .word{font-size:30px}
 }
 </style>
@@ -507,6 +509,7 @@ textarea.xpfield{resize:none}
       <div class="tag">M.Tech Information Security</div>
       <div class="hint">To begin, click on Arnab Mandal to log in</div>
     </div>
+    <div class="divider"></div>
     <div class="user" id="userCard">
       <div class="avatar"><img src="avatar.svg" alt="Arnab"></div>
       <div><div class="name">Arnab Mandal</div><div class="cap">Security Researcher</div></div>
