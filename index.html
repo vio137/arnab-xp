@@ -71,9 +71,9 @@ button{font-family:var(--font)}
 #wall picture{display:block;width:100%;height:100%}
 #wall img{width:100%;height:100%;display:block;object-fit:cover}
 .avatar img{width:100%;height:100%;display:block;object-fit:cover}
-.dicon{position:absolute;width:86px;text-align:center;cursor:default;padding:4px 2px}
-.dicon .ic{width:36px;height:36px;margin:0 auto 3px;filter:drop-shadow(1px 1px 2px rgba(0,0,0,.45))}
-.dicon .lbl{color:#fff;font-size:11px;text-shadow:1px 1px 2px rgba(0,0,0,.8);line-height:1.25;word-wrap:break-word;padding:1px 3px;border-radius:2px;display:inline-block}
+.dicon{position:absolute;width:130px;text-align:center;cursor:default;padding:4px 2px}
+.dicon .ic{width:84px;height:84px;margin:0 auto 4px;filter:drop-shadow(1px 1px 2px rgba(0,0,0,.45))}
+.dicon .lbl{color:#fff;font-size:15px;text-shadow:1px 1px 2px rgba(0,0,0,.8);line-height:1.25;word-wrap:break-word;padding:1px 3px;border-radius:2px;display:inline-block}
 .dicon.sel .lbl{background:#316ac5}
 .dicon.sel .ic{opacity:.75}
 /* ---------- TASKBAR ---------- */
@@ -132,26 +132,26 @@ button{font-family:var(--font)}
 .tlsep{width:1px;height:20px;background:#c8c4b4;margin:0 3px}
 .addrbar{flex:none;background:var(--menubg);border-bottom:1px solid #d4d0c8;display:flex;align-items:center;gap:6px;padding:3px 6px}
 .addrbar .lab{color:#666}
-.addrbar .field{flex:1;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #7f9db9;padding:2px 6px;height:21px}
+.addrbar .field{flex:1;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #7f9db9;padding:2px 8px;height:26px}
 .addrbar .field svg{width:14px;height:14px}
 .addrbar .field span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gobtn{padding:2px 10px;border:1px solid #3c6e1e;border-radius:3px;background:linear-gradient(180deg,#a4d77c,#6faf3c);color:#fff;font-size:11px;cursor:pointer;text-shadow:1px 1px 1px rgba(0,0,0,.3)}
 .gobtn:hover{filter:brightness(1.08)}
 /* sidebar explorer style */
 .explorer{display:flex;height:100%}
-.explorer .side{width:180px;flex:none;background:linear-gradient(180deg,#7ba7e7 0%,#6a8fd8 100%);padding:8px;display:flex;flex-direction:column;gap:8px;overflow:auto}
+.explorer .side{width:200px;flex:none;background:linear-gradient(180deg,#dde8fa 0%,#c9dbf5 100%);padding:10px;display:flex;flex-direction:column;gap:10px;overflow:auto}
 .panel{background:#f5f8ff;border:1px solid #b3c6ea;border-radius:3px;overflow:hidden}
-.panel .ph{background:linear-gradient(180deg,#3c7be8,#2255cc);color:#fff;font-weight:700;padding:4px 8px;font-size:11px;display:flex;justify-content:space-between;align-items:center;cursor:default}
+.panel .ph{background:linear-gradient(180deg,#3c7be8,#2255cc);color:#fff;font-weight:700;padding:6px 10px;font-size:13px;display:flex;justify-content:space-between;align-items:center;cursor:default}
 .panel .pb{padding:6px 8px;display:flex;flex-direction:column;gap:5px}
-.panel .pb a,.panel .pb .pl{display:flex;align-items:center;gap:6px;color:#2255cc;text-decoration:none;cursor:pointer;font-size:11px}
+.panel .pb a,.panel .pb .pl{display:flex;align-items:center;gap:7px;color:#2255cc;text-decoration:none;cursor:pointer;font-size:13px}
 .panel .pb a:hover,.panel .pb .pl:hover{text-decoration:underline;color:#e8622d}
-.panel .pb svg{width:14px;height:14px;flex:none}
-.explorer .main{flex:1;background:linear-gradient(180deg,#5b83d8 0%,#4a74cc 100%);color:#fff;padding:18px 22px;overflow:auto}
-.explorer .main h1{font-family:'Segoe UI',Arial;font-size:24px;font-weight:700;margin-bottom:12px;text-shadow:1px 1px 2px rgba(0,0,0,.3)}
+.panel .pb svg{width:17px;height:17px;flex:none}
+.explorer .main{flex:1;background:#fff;color:#222;padding:20px 26px;overflow:auto}
+.explorer .main h1{font-family:'Segoe UI',Arial;font-size:30px;font-weight:700;color:#0a246a;margin-bottom:16px}
 .explorer .main .row{display:flex;gap:16px;margin-bottom:16px;align-items:flex-start}
-.explorer .main .row .ric{width:52px;height:52px;flex:none}
-.explorer .main p{font-size:13px;line-height:1.55;color:#eef3ff;max-width:56ch}
-.explorer .main b{color:#fff}
+.explorer .main .row .ric{width:60px;height:60px;flex:none}
+.explorer .main p{font-size:15px;line-height:1.6;color:#333;max-width:58ch}
+.explorer .main b{color:#000}
 /* ---------- START MENU ---------- */
 #startmenu{position:fixed;left:2px;bottom:32px;width:336px;z-index:6000;display:none;border-radius:8px 8px 0 0;overflow:hidden;box-shadow:3px -2px 14px rgba(0,0,0,.5);background:#fff;border:1px solid var(--task3)}
 #startmenu .smh{height:52px;background:linear-gradient(180deg,var(--task2) 0%,var(--task1) 30%,var(--task3) 100%);display:flex;align-items:center;gap:10px;padding:0 10px}
@@ -352,6 +352,8 @@ textarea.xpfield{resize:none}
   .win{min-width:0}
   .explorer .side{width:150px}
   .dicon{width:76px}
+  .dicon .ic{width:40px;height:40px}
+  .dicon .lbl{font-size:11px}
   #login .center{gap:22px;flex-direction:column}
   #login .divider{display:none}
   #login .brand .word{font-size:30px}
@@ -675,8 +677,8 @@ function aboutBody(){
 function projectsListBody(){
   return `<div class="explorer"><div class="side">${sidePanels(GH_LINK+MAIL_LINK)}</div>
   <div class="main"><h1>My Projects</h1>
-  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-sec"/></svg><p><b>Scamometer</b> - a Chrome extension that scores pages and messages for scam and phishing signals using a dual-LLM check, so a second opinion is built in. <a href="#" data-nav="scamometer" style="color:#ffe25c">Open details</a></p></div>
-  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-note"/></svg><p><b>UPO</b> - an AI text-rewriter browser extension for quick tone and clarity passes on whatever you are writing. <a href="#" data-nav="upo" style="color:#ffe25c">Open details</a></p></div>
+  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-sec"/></svg><p><b>Scamometer</b> - a Chrome extension that scores pages and messages for scam and phishing signals using a dual-LLM check, so a second opinion is built in. <a href="#" data-nav="scamometer" style="color:#0a46c8">Open details</a></p></div>
+  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-note"/></svg><p><b>UPO</b> - an AI text-rewriter browser extension for quick tone and clarity passes on whatever you are writing. <a href="#" data-nav="upo" style="color:#0a46c8">Open details</a></p></div>
   <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-pc"/></svg><p><b>Arnab XP</b> - this site. An XP-style web desktop with working apps, games and a media player, built as one hand-rolled page.</p></div>
   </div></div>`;
 }
@@ -727,7 +729,7 @@ function botReply(q){
 const CMD_HELP='Available commands:\n  help        this list\n  whoami      current user\n  about       about Arnab\n  projects    project list\n  skills      skills summary\n  contact     contact info\n  github      GitHub profile\n  music       now playing on the media player\n  open <app>  open a program (about, projects, resume, contact, notepad, mines, paint, cmd, wmp, ipod, messenger, imgview, scamlab, pinball, gameboy, realm, display, bin)\n  date        current date and time\n  cls         clear screen\n  exit        close this window';
 /* ---------------- PROGRAMS ---------------- */
 const PROGRAMS={
-  about:{t:'About Me',ic:'i-pc',w:760,h:520,body:()=>aboutBody(),menu:'explore',status:'Ready',nav:'about'},
+  about:{t:'About Me',ic:'i-pc',w:806,h:631,x:153,y:29,body:()=>aboutBody(),menu:'explore',status:'Ready',nav:'about'},
   projects:{t:'My Projects',ic:'i-ie',w:760,h:520,body:()=>projectsListBody(),menu:'explore',status:'Ready',nav:true},
   resume:{t:'My Resume',ic:'i-pdf',w:760,h:520,body:()=>resumeBody(),menu:'explore',status:'Ready'},
   contact:{t:'Contact Me',ic:'i-mail',w:720,h:500,body:()=>contactBody(),menu:'explore',status:'Ready'},
@@ -788,7 +790,7 @@ function openProgram(id){
   const W=mob()?Math.min(innerWidth-8,pr.w):pr.w, H=mob()?Math.min(innerHeight-120,pr.h):pr.h;
   el.style.width=W+'px'; el.style.height=H+'px';
   if(mob()){ el.style.left='4px'; el.style.top=(8+Object.keys(wins).length*28)+'px'; el.style.position='fixed'; }
-  else { el.style.left=(90+Object.keys(wins).length*34)+'px'; el.style.top=(46+Object.keys(wins).length*30)+'px'; }
+  else { el.style.left=(pr.x!==undefined?pr.x:90+Object.keys(wins).length*34)+'px'; el.style.top=(pr.y!==undefined?pr.y:46+Object.keys(wins).length*30)+'px'; }
   el.style.zIndex=++zTop;
   el.innerHTML=`<div class="titlebar"><svg class="ticon2" viewBox="0 0 48 48"><use href="#${pr.ic}"/></svg><span class="ttl">${pr.t}</span>
     <span class="tbtns"><button class="tbtn min" title="Minimize"><svg viewBox="0 0 11 11"><use href="#i-min"/></svg></button><button class="tbtn max" title="Maximize"><svg viewBox="0 0 11 11"><use href="#i-max"/></svg></button><button class="tbtn close" title="Close"><svg viewBox="0 0 11 11"><use href="#i-x"/></svg></button></span></div>
@@ -1385,11 +1387,11 @@ ICONS.scamlab='i-sec'; ICONS.realm='i-realm'; ICONS.aboutxp='i-flag';
 ICON_LBL.scamlab='Scamometer Lab'; ICON_LBL.realm='Realm Login';
 function renderIcons(){
   const c=$('#icons'); c.innerHTML='';
-  const colH=mob()?84:96, cols=mob()?Math.max(1,Math.floor(innerWidth/84)):1;
+  const colH=mob()?84:150, cols=mob()?Math.max(1,Math.floor(innerWidth/84)):1;
   DESKTOP_ICONS.forEach((id,i)=>{
     const d=document.createElement('div'); d.className='dicon'; d.dataset.id=id;
     const col=Math.floor(i/(mob()?7:8)), row=i%(mob()?7:8);
-    d.style.left=(10+col*88)+'px'; d.style.top=(10+row*colH)+'px';
+    d.style.left=(mob()?10:24)+col*(mob()?88:140)+'px'; d.style.top=((mob()?10:30)+row*colH)+'px';
     d.innerHTML=`<svg class="ic" viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span class="lbl">${ICON_LBL[id]}</span>`;
     let lastTap=0;
     d.addEventListener('click',e=>{
