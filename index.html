@@ -1198,6 +1198,7 @@ function gbBody(){
 }
 function wireGb(w){
   const cv=w.el.querySelector('canvas'), ctx=cv.getContext('2d');
+  w.el.addEventListener('pointerdown',()=>{ try{ if(gb&&gb.apu&&gb.apu.enableSound)gb.apu.enableSound(); }catch(e){} },{once:true});
   if(!window.__gbRejectionGuard){ window.__gbRejectionGuard=true; window.addEventListener('unhandledrejection',e=>{ const m=String(e.reason&&(e.reason.message||e.reason)); if(/SharedArrayBuffer|AudioWorklet|cross-origin|atomics/i.test(m))e.preventDefault(); }); }
   let mode='rom', gb=window.__gbInstance||null;
   const stEl=()=>w.el.querySelector('.statusbar .st');
