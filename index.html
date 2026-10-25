@@ -768,8 +768,15 @@ function closeWin(id){
   if(w.cleanup)w.cleanup();
   w.el.remove(); $(`#tasks .taskbtn[data-id="${id}"]`)?.remove(); delete wins[id];
 }
+let RECENTS=[];
+try{ RECENTS=JSON.parse(sessionStorage.getItem('axRecents')||'[]'); }catch(e){}
+function pushRecent(id){
+  RECENTS=[id,...RECENTS.filter(x=>x!==id)].slice(0,6);
+  try{ sessionStorage.setItem('axRecents',JSON.stringify(RECENTS)); }catch(e){}
+}
 function openProgram(id){
   const pr=PROGRAMS[id]; if(!pr)return;
+  pushRecent(id);
   if(wins[id]){ wins[id].el.style.display='flex'; focusWin(id); return; }
   openSnd();
   const el=document.createElement('div'); el.className='win focus'; el.dataset.id=id;
@@ -1408,6 +1415,7 @@ function buildStart(){
   SM_RIGHT.forEach(([id,t])=>{ R.innerHTML+= id==='gh'
     ?`<div class="smi" data-ext="${GH}"><svg viewBox="0 0 20 20"><use href="#i-gh"/></svg><span class="tx"><b>${t}</b></span></div>`
     :`<div class="smi" data-ext="mailto:arnab@ik.me"><svg viewBox="0 0 48 48"><use href="#i-mail"/></svg><span class="tx"><b>${t}</b></span></div>`; });
+  R.innerHTML+=`<div class="smi" id="recentUsed"><svg viewBox="0 0 48 48"><use href="#i-note"/></svg><span class="tx"><b>Recently Used</b></span><svg width="12" height="12" viewBox="0 0 12 12" style="margin-left:auto"><use href="#i-tri"/></svg></div>`;
   R.innerHTML+='<div class="smi sep"></div>';
   SM_RIGHT2.forEach(([id,t])=>R.innerHTML+=`<div class="smi" data-id="${id}"><svg viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span class="tx"><b>${t}</b></span></div>`);
   R.innerHTML+='<div class="smi sep"></div>';
@@ -1428,8 +1436,18 @@ $('#startmenu').addEventListener('click',e=>{
   else if(s.dataset.ext){ clickSnd(); closeStart(); window.open(s.dataset.ext,'_blank','noopener'); }
 });
 document.addEventListener('mouseover',e=>{
+  const ru=e.target.closest('#recentUsed');
   const ap=e.target.closest('#allProg');
   const fl=$('#flyout');
+  if(ru){
+    fl.dataset.built='';
+    fl.innerHTML=(RECENTS.length?RECENTS:[]).map(id=>`<div class="smi" data-id="${id}"><svg viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span class="tx"><b>${ICON_LBL[id]||PROGRAMS[id].t}</b></span></div>`).join('')||'<div class="smi"><span class="tx"><b>(empty)</b></span></div>';
+    fl.onclick=ev=>{ const s2=ev.target.closest('.smi'); if(s2&&s2.dataset.id){ clickSnd(); closeStart(); openProgram(s2.dataset.id); } };
+    const r=ru.getBoundingClientRect(), sm=$('#startmenu').getBoundingClientRect();
+    fl.style.display='block'; fl.style.left=(sm.right-6)+'px';
+    fl.style.top=Math.min(r.top, innerHeight-fl.offsetHeight-8)+'px';
+    return;
+  }
   if(ap){
     if(!fl.dataset.built){
       fl.innerHTML=ALL_PROGRAMS.map(id=>`<div class="smi" data-id="${id}"><svg viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span class="tx"><b>${ICON_LBL[id]}</b></span></div>`).join('');
