@@ -367,9 +367,10 @@ textarea.xpfield{resize:none}
   #login .user{flex-direction:column;gap:12px;padding:16px}
   #login .user .avatar{width:80px;height:80px}
   #login .user{text-align:center}
-  #login .footbtn{left:0;right:0;justify-content:center}
+  #login .footbtn{display:none}
   #login .footnote{display:none}
-  #login .band.bottom::after{content:'Tap on the user icon to begin';position:absolute;bottom:2.2%;left:0;right:0;text-align:center;color:#fff;font-size:14px;font-family:'Segoe UI',Arial}
+  #login .user .cap{color:#00309c;font-weight:600}
+  #login .band.bottom::after{content:'Tap on the user icon to begin';position:absolute;bottom:0;left:0;right:0;top:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-family:'Segoe UI',Arial}
 }
 </style>
 </head>
