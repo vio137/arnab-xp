@@ -67,7 +67,8 @@ button{font-family:var(--font)}
 /* ---------- DESKTOP ---------- */
 #desktop{position:fixed;inset:0;bottom:30px;display:none;overflow:hidden}
 #wall{position:absolute;inset:0}
-#wall svg{width:100%;height:100%;display:block}
+#wall img{width:100%;height:100%;display:block;object-fit:cover}
+.avatar img{width:100%;height:100%;display:block;object-fit:cover}
 .dicon{position:absolute;width:86px;text-align:center;cursor:default;padding:4px 2px}
 .dicon .ic{width:36px;height:36px;margin:0 auto 3px;filter:drop-shadow(1px 1px 2px rgba(0,0,0,.45))}
 .dicon .lbl{color:#fff;font-size:11px;text-shadow:1px 1px 2px rgba(0,0,0,.8);line-height:1.25;word-wrap:break-word;padding:1px 3px;border-radius:2px;display:inline-block}
@@ -506,7 +507,7 @@ textarea.xpfield{resize:none}
       <div class="hint">To begin, click on Arnab Mandal to log in</div>
     </div>
     <div class="user" id="userCard">
-      <div class="avatar"><svg viewBox="0 0 64 64" width="64" height="64"><use href="#i-avatar"/></svg></div>
+      <div class="avatar"><img src="avatar.png" alt="Arnab"></div>
       <div><div class="name">Arnab Mandal</div><div class="cap">Security Researcher</div></div>
     </div>
   </div>
@@ -516,28 +517,7 @@ textarea.xpfield{resize:none}
 <!-- DESKTOP -->
 <div id="desktop">
   <div id="wall">
-  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" id="wallSvg">
-    <rect width="1440" height="900" fill="url(#gSky)"/>
-    <g filter="url(#fBlur)" opacity=".95" fill="#fff">
-      <ellipse cx="1150" cy="110" rx="170" ry="30"/><ellipse cx="1255" cy="88" rx="95" ry="22"/>
-      <ellipse cx="280" cy="86" rx="200" ry="24"/><ellipse cx="410" cy="64" rx="115" ry="16"/>
-      <ellipse cx="770" cy="160" rx="100" ry="14"/>
-      <ellipse cx="1050" cy="330" rx="120" ry="26"/><ellipse cx="1130" cy="308" rx="70" ry="18"/>
-    </g>
-    <g opacity=".4" fill="#eaf6ff" filter="url(#fBlur)">
-      <ellipse cx="520" cy="230" rx="240" ry="12"/><ellipse cx="980" cy="290" rx="200" ry="10"/>
-      <ellipse cx="180" cy="320" rx="180" ry="9"/>
-    </g>
-    <path d="M0 508 C 220 470 420 452 660 462 C 920 473 1150 452 1440 474 L1440 560 L0 560 Z" fill="#5f9416" opacity=".8"/>
-    <path d="M0 500 C 240 462 520 448 820 458 C 1060 466 1260 458 1440 468 L1440 900 L0 900 Z" fill="url(#gField)"/>
-    <path d="M0 500 C 240 462 520 448 820 458 C 1060 466 1260 458 1440 468 L1440 900 L0 900 Z" fill="#777" filter="url(#fGrassTex)" opacity=".42" style="mix-blend-mode:multiply"/>
-    <path d="M0 500 C 240 462 520 448 820 458 C 1060 466 1260 458 1440 468 L1440 900 L0 900 Z" fill="#777" filter="url(#fGrassHi)" opacity=".22" style="mix-blend-mode:screen"/>
-    <g filter="url(#fMow)" transform="translate(712,545) skewX(-17) scale(1,.66)">
-      <text class="mow-lg" x="0" y="230" text-anchor="middle" textLength="1160" font-family="Arial Black,Arial" font-size="240" font-weight="900" fill="#2c5a0c" letter-spacing="10">ARNAB</text>
-      <text class="mow-sm" x="52" y="190" text-anchor="middle" textLength="340" font-family="Arial Black,Arial" font-size="100" font-weight="900" fill="#2c5a0c" letter-spacing="2">ARNAB</text>
-    </g>
-    <g opacity=".22" filter="url(#fBlur)"><ellipse cx="1150" cy="830" rx="320" ry="44" fill="#1e3d02"/></g>
-  </svg>
+  <img id="wallImg" src="wallpaper.jpg" alt="Arnab XP wallpaper - a green hill with ARNAB mowed into the grass">
   </div>
   <div id="icons"></div>
 </div>
@@ -553,7 +533,7 @@ textarea.xpfield{resize:none}
 </div>
 <!-- START MENU -->
 <div id="startmenu">
-  <div class="smh"><div class="avatar"><svg viewBox="0 0 64 64" width="42" height="42"><use href="#i-avatar"/></svg></div><div class="nm">Arnab Mandal</div></div>
+  <div class="smh"><div class="avatar"><img src="avatar.png" alt="Arnab"></div><div class="nm">Arnab Mandal</div></div>
   <div class="smbody"><div class="left" id="smLeft"></div><div class="right" id="smRight"></div></div>
   <div class="smf">
     <button class="fb" id="smLogoff"><svg viewBox="0 0 20 20"><use href="#i-key"/></svg>Log Off</button>
@@ -751,7 +731,7 @@ const PROGRAMS={
   paint:{t:'untitled - Paint',ic:'i-brush',w:900,h:640,body:()=>'<iframe class="iframe-c" src="https://jspaint.app/" title="Paint" style="background:#fff"></iframe>',menu:'basic',status:''},
   aboutxp:{t:'About Arnab XP',ic:'i-flag',w:430,h:330,body:()=>`<div class="pad" style="display:flex;gap:14px;align-items:flex-start">
     <svg viewBox="0 0 120 96" style="width:64px;height:52px;flex:none;margin-top:4px"><use href="#i-flag"/></svg>
-    <div><h2>Arnab XP</h2><p>Version 1.0 - portfolio build. A Windows XP-style web desktop, hand-rolled as a single page of HTML, CSS and JavaScript.</p>
+    <div><h2>Arnab XP</h2><p>Version 2.0 - portfolio build. A Windows XP-style web desktop, hand-rolled as a single page of HTML, CSS and JavaScript.</p>
     <p>Inspired by mitchivin.com. Not affiliated with or endorsed by Microsoft.</p>
     <p>Every app is an original reimplementation. Minesweeper and Paint run the same MIT-licensed 98.js.org and jspaint.app embeds the inspiration site uses.</p></div></div>`,menu:'basic',status:'Original work - no source code or assets copied'},
   bin:{t:'Recycle Bin',ic:'i-bin',w:480,h:340,body:()=>'<div class="pad"><h2>Recycle Bin</h2><p>The Recycle Bin is empty. Deleted drafts, dead ends and 3 AM ideas never make it here - they get shipped instead.</p></div>',menu:'basic',status:'0 object(s)'},
@@ -1072,9 +1052,9 @@ function wireMsn(w){
 }
 /* ---------------- IMAGE VIEWER ---------------- */
 const ART=[
- {name:'Bliss, redrawn (Arnab XP wallpaper)',svg:()=>$('#wallSvg').outerHTML},
+ {name:'Arnab XP wallpaper (original generated art)',img:'wallpaper.jpg'},
  {name:'Arnab XP flag logo',svg:()=>`<svg viewBox="0 0 120 96" width="300" height="240"><rect width="120" height="96" fill="#000" opacity="0"/><use href="#i-flag"/></svg>`},
- {name:'Welcome portrait',svg:()=>`<svg viewBox="0 0 64 64" width="240" height="240"><use href="#i-avatar"/></svg>`}
+ {name:'Welcome portrait (original generated art)',img:'avatar.png'}
 ];
 function imgvBody(){
   return `<div class="imgv"><div class="stage"><div class="art"></div></div>
@@ -1089,9 +1069,8 @@ function wireImgv(w){
   const art=w.el.querySelector('.art'), cap=w.el.querySelector('.cap');
   let i=0, zoom=1, rot=0;
   function render(){
-    art.innerHTML=ART[i].svg();
-    const svg=art.querySelector('svg');
-    if(i===0){ svg.setAttribute('width','480'); svg.setAttribute('height','300'); svg.removeAttribute('viewBox'); svg.setAttribute('viewBox','0 0 1440 900'); }
+    if(ART[i].img){ art.innerHTML=`<img src="${ART[i].img}" style="max-width:480px;max-height:300px;display:block" alt="">`; }
+    else { art.innerHTML=ART[i].svg(); }
     art.style.transform=`scale(${zoom}) rotate(${rot}deg)`;
     cap.textContent=`${i+1} of ${ART.length} - ${ART[i].name}`;
   }
