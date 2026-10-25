@@ -354,9 +354,9 @@ textarea.xpfield{resize:none}
   #tasks{right:120px}
   .win{min-width:0}
   .explorer .side{width:150px}
-  .dicon{width:76px}
-  .dicon .ic{width:40px;height:40px}
-  .dicon .lbl{font-size:11px}
+  .dicon{width:110px}
+  .dicon .ic{width:64px;height:64px}
+  .dicon .lbl{font-size:15px}
   #login .center{gap:30px;flex-direction:column}
   #login .divider{display:none}
   #login .brand{text-align:center}
@@ -1453,11 +1453,11 @@ ICONS.scamlab='i-sec'; ICONS.realm='i-realm'; ICONS.aboutxp='i-flag';
 ICON_LBL.scamlab='Scamometer Lab'; ICON_LBL.realm='Realm Login';
 function renderIcons(){
   const c=$('#icons'); c.innerHTML='';
-  const colH=mob()?84:153, cols=mob()?Math.max(1,Math.floor(innerWidth/84)):1;
+  const colH=mob()?132:153, cols=mob()?Math.max(1,Math.floor(innerWidth/120)):1;
   DESKTOP_ICONS.forEach((id,i)=>{
     const d=document.createElement('div'); d.className='dicon'; d.dataset.id=id;
     const col=Math.floor(i/(mob()?7:8)), row=i%(mob()?7:8);
-    d.style.left=(mob()?10:24)+col*(mob()?88:140)+'px'; d.style.top=((mob()?10:44)+row*colH)+'px';
+    d.style.left=(mob()?14:24)+col*(mob()?120:140)+'px'; d.style.top=((mob()?30:44)+row*colH)+'px';
     d.innerHTML=`<svg class="ic" viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span class="lbl">${ICON_LBL[id]}</span>`;
     let lastTap=0;
     d.addEventListener('click',e=>{
