@@ -53,7 +53,7 @@ button{font-family:var(--font)}
 #login .divider{width:1px;height:min(340px,60%);background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.6),rgba(255,255,255,0))}
 #login .brand{text-align:left}
 #login .brand .flag{width:116px;height:93px}
-#login .brand .word{font-size:48px;font-weight:700;color:#d3d3d3;letter-spacing:-1.5px;font-family:'Segoe UI',Arial}
+#login .brand .word{font-size:48px;font-weight:700;color:#f0f0f0;letter-spacing:-1.5px;font-family:'Segoe UI',Arial}
 #login .brand .word sup{font-size:25px;color:#e8622d;margin-left:4px}
 #login .brand .tag{color:#cdd9f7;font-style:italic;font-size:15px;margin-top:3px;font-family:'Segoe UI',Arial}
 #login .hint{color:#fff;font-size:15px;margin-top:52px;font-family:'Segoe UI',Arial}
@@ -357,8 +357,19 @@ textarea.xpfield{resize:none}
   .dicon{width:76px}
   .dicon .ic{width:40px;height:40px}
   .dicon .lbl{font-size:11px}
-  #login .center{gap:22px;flex-direction:column}
+  #login .center{gap:30px;flex-direction:column}
   #login .divider{display:none}
+  #login .brand{text-align:center}
+  #login .brand .flag{width:140px;height:112px}
+  #login .brand .word{font-size:40px}
+  #login .brand .tag{font-size:16px}
+  #login .hint{display:none}
+  #login .user{flex-direction:column;gap:12px;padding:16px}
+  #login .user .avatar{width:80px;height:80px}
+  #login .user{text-align:center}
+  #login .footbtn{left:0;right:0;justify-content:center}
+  #login .footnote{display:none}
+  #login .band.bottom::after{content:'Tap on the user icon to begin';position:absolute;bottom:2.2%;left:0;right:0;text-align:center;color:#fff;font-size:14px;font-family:'Segoe UI',Arial}
   #login .brand .word{font-size:30px}
 }
 </style>
