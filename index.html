@@ -843,7 +843,7 @@ function wireWin(id,w,pr){
     if(e.target.closest('.tbtn'))return;
     if(el.dataset.max==='1')return;
     drag={x:e.clientX-el.offsetLeft,y:e.clientY-el.offsetTop};
-    bar.setPointerCapture(e.pointerId);
+    try{ bar.setPointerCapture(e.pointerId); }catch(_){ } /* synthetic pointers have no active id */
   });
   bar.addEventListener('pointermove',e=>{
     if(!drag)return;
