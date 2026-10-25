@@ -139,19 +139,19 @@ button{font-family:var(--font)}
 .gobtn:hover{filter:brightness(1.08)}
 /* sidebar explorer style */
 .explorer{display:flex;height:100%}
-.explorer .side{width:200px;flex:none;background:linear-gradient(180deg,#dde8fa 0%,#c9dbf5 100%);padding:10px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.explorer .side{width:200px;flex:none;background:linear-gradient(180deg,#cfe1f8 0%,#c2d8f5 100%);padding:10px;display:flex;flex-direction:column;gap:10px;overflow:auto}
 .panel{background:#f5f8ff;border:1px solid #b3c6ea;border-radius:3px;overflow:hidden}
 .panel .ph{background:linear-gradient(180deg,#3c7be8,#2255cc);color:#fff;font-weight:700;padding:6px 10px;font-size:13px;display:flex;justify-content:space-between;align-items:center;cursor:default}
 .panel .pb{padding:6px 8px;display:flex;flex-direction:column;gap:5px}
 .panel .pb a,.panel .pb .pl{display:flex;align-items:center;gap:7px;color:#2255cc;text-decoration:none;cursor:pointer;font-size:13px}
 .panel .pb a:hover,.panel .pb .pl:hover{text-decoration:underline;color:#e8622d}
 .panel .pb svg{width:17px;height:17px;flex:none}
-.explorer .main{flex:1;background:#fff;color:#222;padding:20px 26px;overflow:auto}
-.explorer .main h1{font-family:'Segoe UI',Arial;font-size:30px;font-weight:700;color:#0a246a;margin-bottom:16px}
+.explorer .main{flex:1;background:linear-gradient(180deg,#5468de 0%,#4658d0 100%);color:#fff;padding:20px 26px;overflow:auto}
+.explorer .main h1{font-family:'Segoe UI',Arial;font-size:30px;font-weight:700;color:#fff;margin-bottom:16px;text-shadow:1px 1px 2px rgba(0,0,0,.3)}
 .explorer .main .row{display:flex;gap:16px;margin-bottom:16px;align-items:flex-start}
 .explorer .main .row .ric{width:60px;height:60px;flex:none}
-.explorer .main p{font-size:15px;line-height:1.6;color:#333;max-width:58ch}
-.explorer .main b{color:#000}
+.explorer .main p{font-size:15px;line-height:1.6;color:#eef3ff;max-width:58ch}
+.explorer .main b{color:#fff}
 /* ---------- START MENU ---------- */
 #startmenu{position:fixed;left:2px;bottom:32px;width:336px;z-index:6000;display:none;border-radius:8px 8px 0 0;overflow:hidden;box-shadow:3px -2px 14px rgba(0,0,0,.5);background:#fff;border:1px solid var(--task3)}
 #startmenu .smh{height:52px;background:linear-gradient(180deg,var(--task2) 0%,var(--task1) 30%,var(--task3) 100%);display:flex;align-items:center;gap:10px;padding:0 10px}
@@ -681,8 +681,8 @@ function aboutBody(){
 function projectsListBody(){
   return `<div class="explorer"><div class="side">${sidePanels(GH_LINK+MAIL_LINK)}</div>
   <div class="main"><h1>My Projects</h1>
-  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-sec"/></svg><p><b>Scamometer</b> - a Chrome extension that scores pages and messages for scam and phishing signals using a dual-LLM check, so a second opinion is built in. <a href="#" data-nav="scamometer" style="color:#0a46c8">Open details</a></p></div>
-  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-note"/></svg><p><b>UPO</b> - an AI text-rewriter browser extension for quick tone and clarity passes on whatever you are writing. <a href="#" data-nav="upo" style="color:#0a46c8">Open details</a></p></div>
+  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-sec"/></svg><p><b>Scamometer</b> - a Chrome extension that scores pages and messages for scam and phishing signals using a dual-LLM check, so a second opinion is built in. <a href="#" data-nav="scamometer" style="color:#ffe25c">Open details</a></p></div>
+  <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-note"/></svg><p><b>UPO</b> - an AI text-rewriter browser extension for quick tone and clarity passes on whatever you are writing. <a href="#" data-nav="upo" style="color:#ffe25c">Open details</a></p></div>
   <div class="row"><svg class="ric" viewBox="0 0 48 48"><use href="#i-pc"/></svg><p><b>Arnab XP</b> - this site. An XP-style web desktop with working apps, games and a media player, built as one hand-rolled page.</p></div>
   </div></div>`;
 }
@@ -1435,11 +1435,11 @@ ICONS.scamlab='i-sec'; ICONS.realm='i-realm'; ICONS.aboutxp='i-flag';
 ICON_LBL.scamlab='Scamometer Lab'; ICON_LBL.realm='Realm Login';
 function renderIcons(){
   const c=$('#icons'); c.innerHTML='';
-  const colH=mob()?84:150, cols=mob()?Math.max(1,Math.floor(innerWidth/84)):1;
+  const colH=mob()?84:153, cols=mob()?Math.max(1,Math.floor(innerWidth/84)):1;
   DESKTOP_ICONS.forEach((id,i)=>{
     const d=document.createElement('div'); d.className='dicon'; d.dataset.id=id;
     const col=Math.floor(i/(mob()?7:8)), row=i%(mob()?7:8);
-    d.style.left=(mob()?10:24)+col*(mob()?88:140)+'px'; d.style.top=((mob()?10:30)+row*colH)+'px';
+    d.style.left=(mob()?10:24)+col*(mob()?88:140)+'px'; d.style.top=((mob()?10:44)+row*colH)+'px';
     d.innerHTML=`<svg class="ic" viewBox="0 0 48 48"><use href="#${ICONS[id]}"/></svg><span class="lbl">${ICON_LBL[id]}</span>`;
     let lastTap=0;
     d.addEventListener('click',e=>{
