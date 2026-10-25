@@ -294,6 +294,9 @@ textarea.xpfield{resize:none}
 .ab{display:flex;gap:12px}
 .ab button{width:34px;height:34px;border-radius:50%;background:#a03050;border:none;color:#fff;font-weight:700;cursor:pointer;box-shadow:0 2px 4px rgba(0,0,0,.4)}
 .ab button:active{transform:translateY(1px)}
+.gb-games{display:flex;gap:6px;justify-content:center}
+.gb-games button{font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid #7f9db9;background:#fff;cursor:pointer}
+.gb-games button.on{background:#3c7be8;color:#fff;border-color:#2255cc}
 .gb-meta{display:flex;gap:14px}
 .gb-meta button{font-size:9px;padding:2px 10px;border-radius:8px;border:none;background:#888;color:#eee;cursor:pointer}
 /* display props */
@@ -562,6 +565,7 @@ textarea.xpfield{resize:none}
 <div id="crt"></div>
 <div id="logoff" class="screen-off"><div class="txt">Logging off...</div></div>
 <div id="shutdown" class="screen-off"><div class="txt">It is now safe to turn off your computer.</div><div class="sub" id="bootAgain">click to boot again</div></div>
+<script src="vendor/gameboy.js"></script>
 <script>
 'use strict';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -718,7 +722,7 @@ function botReply(q){
   if(has('project','work','build'))return 'Main builds right now: Scamometer (scam/phishing detector) and UPO (AI text rewriter), both browser extensions with source on github.com/vio137. This desktop counts too.';
   if(has('contact','email','mail','reach','phone'))return 'Email arnab@ik.me - that is the fastest route. GitHub: github.com/vio137. He is based in Kolkata.';
   if(has('github','code','repo'))return 'Everything public lives at github.com/vio137 - Scamometer, UPO and this site (vio137/arnab-xp).';
-  if(has('game','minesweeper','pinball','snake','paint','play'))return 'Games live here: Minesweeper and Paint on the desktop, Pinball and Mi Boy Color (Snake) in All Programs. All of them actually play.';
+  if(has('game','minesweeper','pinball','snake','paint','play'))return 'Games live here: Minesweeper and Paint on the desktop, Pinball and Mi Boy Color in All Programs. All of them actually play.';
   if(has('who are you','your name','bot'))return 'Arnab Bot - a very small, fully local assistant running inside this page. No cloud, no tracking.';
   if(has('arnab'))return 'Arnab Mandal - M.Tech InfoSec at MAKAUT Kolkata, builds browser security tools. Try the About Me icon for the full story.';
   if(has('thank','thanks'))return 'Anytime. Double-click something else - the terminal and the media player are worth a look.';
@@ -748,7 +752,7 @@ const PROGRAMS={
   messenger:{t:'Live Messenger',ic:'i-msn',w:420,h:520,body:()=>msnBody(),menu:'basic',status:'Arnab Bot - local rule-based bot, replies on this page only',wire:wireMsn},
   imgview:{t:'Arnab XP Picture Viewer',ic:'i-img',w:640,h:520,body:()=>imgvBody(),menu:'basic',status:'',wire:wireImgv},
   pinball:{t:'3D Pinball - Space Cadet (XP tribute)',ic:'i-pin',w:400,h:560,body:()=>'<div class="gamec"><canvas id="pinCv" width="340" height="480" tabindex="0"></canvas></div>',menu:'basic',status:'Z / M = flippers, Space = launch',wire:wirePinball},
-  gameboy:{t:'Mi Boy Color (Snake)',ic:'i-gb',w:380,h:520,body:()=>gbBody(),menu:'basic',status:'Snake - press Start',wire:wireGb},
+  gameboy:{t:'Mi Boy Color',ic:'i-gb',w:380,h:520,body:()=>gbBody(),menu:'basic',status:'Snake - press Start',wire:wireGb},
   display:{t:'Display Properties',ic:'i-gear',w:440,h:460,body:()=>displayBody(),menu:'basic',status:'',wire:wireDisplay}
 };
 const ICONS={about:'i-pc',projects:'i-ie',resume:'i-pdf',contact:'i-mail',notepad:'i-note',cmd:'i-cmd',mines:'i-mine',paint:'i-brush',bin:'i-bin',wmp:'i-wmp',ipod:'i-ipod',messenger:'i-msn',imgview:'i-img',pinball:'i-pin',gameboy:'i-gb',display:'i-gear'};
@@ -1183,15 +1187,41 @@ function wirePinball(w){
 }
 /* ---------------- MI BOY (SNAKE) ---------------- */
 function gbBody(){
-  return `<div class="gb-shell"><div class="gb-scr"><canvas id="gbCv" width="160" height="144" tabindex="0"></canvas></div>
+  return `<div class="gb-shell">
+    <div class="gb-games"><button data-g="rom" class="on">Unstoppable Knight</button><button data-g="snake">Snake</button></div>
+    <div class="gb-scr"><canvas id="gbCv" width="160" height="144" tabindex="0"></canvas></div>
     <div class="gb-ctrls">
-      <div class="dpad"><button class="u">▲</button><button class="d">▼</button><button class="l">◀</button><button class="r">▶</button></div>
+      <div class="dpad"><button class="u">\u25b2</button><button class="d">\u25bc</button><button class="l">\u25c0</button><button class="r">\u25b6</button></div>
       <div class="ab"><button>B</button><button>A</button></div>
     </div>
     <div class="gb-meta"><button class="sel">SELECT</button><button class="st">START</button></div></div>`;
 }
 function wireGb(w){
   const cv=w.el.querySelector('canvas'), ctx=cv.getContext('2d');
+  if(!window.__gbRejectionGuard){ window.__gbRejectionGuard=true; window.addEventListener('unhandledrejection',e=>{ const m=String(e.reason&&(e.reason.message||e.reason)); if(/SharedArrayBuffer|AudioWorklet|cross-origin|atomics/i.test(m))e.preventDefault(); }); }
+  let mode='rom', gb=window.__gbInstance||null;
+  const stEl=()=>w.el.querySelector('.statusbar .st');
+  const setSt=(t)=>{ const e=stEl(); if(e)e.textContent=t; };
+  /* --- Game Boy emulator mode: Unstoppable Knight (MIT-licensed homebrew ROM) --- */
+  function setIn(name,val){ if(gb)gb.input[name]=val; }
+  function startRom(){
+    stopSnake();
+    if(window.__gbBooted){ gb=window.__gbInstance; gb.onFrameFinished(img=>{ if(mode==='rom')ctx.putImageData(img,0,0); }); setSt('Unstoppable Knight (homebrew, MIT) - arrows move, A/S = B/A, Enter = Start'); return; }
+    const Ctor=(window.gameboy&&window.gameboy.Gameboy)||window.Gameboy;
+    if(!Ctor){ romTitle('EMULATOR FAILED TO LOAD'); return; }
+    gb=window.__gbInstance=new Ctor();
+    romTitle('LOADING...');
+    fetch('roms/knight.gb').then(r=>r.arrayBuffer()).then(buf=>{
+      if(!gb)return;
+      gb.loadGame(buf);
+      gb.onFrameFinished(img=>{ if(mode==='rom')ctx.putImageData(img,0,0); });
+      gb.run();
+      window.__gbBooted=true;
+    }).catch(()=>romTitle('ROM LOAD FAIL'));
+    setSt('Unstoppable Knight (homebrew, MIT) - arrows move, A/S = B/A, Enter = Start');
+  }
+  function romTitle(msg){ ctx.fillStyle='#9bbc0f'; ctx.fillRect(0,0,160,144); ctx.fillStyle='#0f380f'; ctx.font='9px monospace'; ctx.fillText(msg,14,72); }
+  /* --- Snake mode (built-in) --- */
   const G=8, COLS=20, ROWS=18;
   let snake=[{x:10,y:9},{x:9,y:9},{x:8,y:9}],dir={x:1,y:0},ndir={x:1,y:0},food={x:13,y:9},score=0,alive=false,timer=null,speed=140;
   function reset(){ snake=[{x:10,y:9},{x:9,y:9},{x:8,y:9}]; dir={x:1,y:0}; ndir=dir; score=0; alive=true; place(); speed=140; }
@@ -1200,36 +1230,54 @@ function wireGb(w){
     if(!alive)return;
     dir=ndir;
     const h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
-    if(h.x<0||h.y<0||h.x>=COLS||h.y>=ROWS||snake.some(s=>s.x===h.x&&s.y===h.y)){ alive=false; draw(); return; }
+    if(h.x<0||h.y<0||h.x>=COLS||h.y>=ROWS||snake.some(s=>s.x===h.x&&s.y===h.y)){ alive=false; drawSnake(); return; }
     snake.unshift(h);
     if(h.x===food.x&&h.y===food.y){ score+=10; tone(700,0,0.06,'square',0.05); place(); if(speed>60)speed-=4; }
     else snake.pop();
-    draw();
+    drawSnake();
     clearTimeout(timer); timer=setTimeout(step,speed);
   }
   function px(x,y,c){ ctx.fillStyle=c; ctx.fillRect(x*G,y*G,G-1,G-1); }
-  function draw(){
+  function drawSnake(){
     ctx.fillStyle='#9bbc0f'; ctx.fillRect(0,0,160,144);
-    snake.forEach((s,i)=>px(s.x,s.y,i?'#306230':'#0f380f'));
+    snake.forEach((s2,i)=>px(s2.x,s2.y,i?'#306230':'#0f380f'));
     px(food.x,food.y,'#0f380f');
     ctx.fillStyle='#0f380f'; ctx.font='8px monospace'; ctx.fillText('SCORE '+score,4,10);
     if(!alive){ ctx.font='10px monospace'; ctx.fillText('GAME OVER',50,72); ctx.font='7px monospace'; ctx.fillText('START to retry',48,84); }
   }
-  function start(){ clearTimeout(timer); reset(); timer=setTimeout(step,speed); tone(500,0,0.08,'square',0.05); }
+  function snakeTitle(){ ctx.fillStyle='#9bbc0f'; ctx.fillRect(0,0,160,144); ctx.fillStyle='#0f380f'; ctx.font='9px monospace'; ctx.fillText('SNAKE',62,66); ctx.font='7px monospace'; ctx.fillText('press START',48,80); }
+  function stopSnake(){ clearTimeout(timer); alive=false; }
+  function startSnake(){ setSt('Snake - press START'); snakeTitle(); }
+  function playSnake(){ clearTimeout(timer); reset(); timer=setTimeout(step,speed); tone(500,0,0.08,'square',0.05); }
   function turn(x,y){ if((x!==-dir.x||y!==-dir.y))ndir={x,y}; }
+  /* mode switch */
+  w.el.querySelectorAll('.gb-games button').forEach(b=>b.onclick=()=>{
+    w.el.querySelectorAll('.gb-games button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    mode=b.dataset.g; cv.focus(); clickSnd();
+    if(mode==='rom')startRom(); else startSnake();
+  });
+  /* controls routed to the active mode */
   const map={u:[0,-1],d:[0,1],l:[-1,0],r:[1,0]};
+  const flagmap={u:'isPressingUp',d:'isPressingDown',l:'isPressingLeft',r:'isPressingRight'};
+  const bindHold=(el,down,up)=>{
+    el.addEventListener('pointerdown',e=>{e.preventDefault();cv.focus();clickSnd();down();});
+    ['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>up&&up()));
+  };
   Object.keys(map).forEach(k=>{ const b=w.el.querySelector('.dpad .'+k);
-    b.addEventListener('pointerdown',e=>{e.preventDefault();cv.focus();turn(map[k][0],map[k][1]);clickSnd();}); });
-  w.el.querySelector('.st').onclick=()=>{cv.focus();start();};
-  w.el.querySelector('.sel').onclick=()=>{cv.focus();dingSnd();};
-  w.el.querySelectorAll('.ab button').forEach(b=>b.onclick=()=>{cv.focus();clickSnd();});
+    bindHold(b,()=>{ if(mode==='rom')setIn(flagmap[k],true); else turn(map[k][0],map[k][1]); },()=>{ if(mode==='rom')setIn(flagmap[k],false); }); });
+  const ab=w.el.querySelectorAll('.ab button');
+  bindHold(ab[0],()=>setIn('isPressingB',true),()=>setIn('isPressingB',false));
+  bindHold(ab[1],()=>setIn('isPressingA',true),()=>setIn('isPressingA',false));
+  bindHold(w.el.querySelector('.sel'),()=>setIn('isPressingSelect',true),()=>setIn('isPressingSelect',false));
+  bindHold(w.el.querySelector('.st'),()=>{ if(mode==='rom')setIn('isPressingStart',true); else playSnake(); },()=>{ if(mode==='rom')setIn('isPressingStart',false); });
   cv.addEventListener('keydown',e=>{
+    if(mode!=='snake')return;
     const k=e.key;
     if(k==='ArrowUp')turn(0,-1); else if(k==='ArrowDown')turn(0,1); else if(k==='ArrowLeft')turn(-1,0); else if(k==='ArrowRight')turn(1,0);
-    else if(k==='Enter'||k===' ')start();
+    else if(k==='Enter'||k===' ')playSnake();
     e.preventDefault();
   });
-  draw(); ctx.fillStyle='#0f380f'; ctx.font='9px monospace'; ctx.fillText('SNAKE',62,66); ctx.font='7px monospace'; ctx.fillText('press START',48,80);
+  startRom();
   cv.focus();
   w.cleanup=()=>clearTimeout(timer);
 }
