@@ -67,8 +67,8 @@ button{font-family:var(--font)}
 /* ---------- DESKTOP ---------- */
 #desktop{position:fixed;inset:0;bottom:30px;display:none;overflow:hidden}
 #wall{position:absolute;inset:0}
+#wall picture{display:block;width:100%;height:100%}
 #wall img{width:100%;height:100%;display:block;object-fit:cover}
-@media (max-width:640px){#wall img{object-position:44% 62%}}
 .avatar img{width:100%;height:100%;display:block;object-fit:cover}
 .dicon{position:absolute;width:86px;text-align:center;cursor:default;padding:4px 2px}
 .dicon .ic{width:36px;height:36px;margin:0 auto 3px;filter:drop-shadow(1px 1px 2px rgba(0,0,0,.45))}
@@ -518,7 +518,7 @@ textarea.xpfield{resize:none}
 <!-- DESKTOP -->
 <div id="desktop">
   <div id="wall">
-  <img id="wallImg" src="wallpaper.jpg" alt="Arnab XP wallpaper - a green hill with ARNAB mowed into the grass">
+  <picture><source media="(max-width:640px)" srcset="wallpaper-mobile.jpg"><img id="wallImg" src="wallpaper.jpg" alt="Arnab XP wallpaper - a green hill with ARNAB mowed into the grass"></picture>
   </div>
   <div id="icons"></div>
 </div>
